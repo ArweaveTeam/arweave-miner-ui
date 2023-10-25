@@ -1,0 +1,12 @@
+appId: org.arweave.miner-ui
+productName: Arweave Miner UI
+copyright: Copyright © 2023 DigitalHistoryAssociation
+directories:
+  output: dist
+  buildResources: resources
+files:
+  - from: .
+    filter:
+      - package.json
+      - app
+publish: null
