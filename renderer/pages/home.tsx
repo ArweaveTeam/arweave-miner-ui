@@ -1,10 +1,11 @@
 import React from "react";
 import Head from "next/head";
-import { Button, Link as ChakraLink } from "@chakra-ui/react";
+// import { Button, Link as ChakraLink } from "@chakra-ui/react";
 import { Container } from "../components/Container";
-import { DarkModeSwitch } from "../components/DarkModeSwitch";
-import { Footer } from "../components/Footer";
-import { Hero } from "../components/Hero";
+// import { DarkModeSwitch } from "../components/DarkModeSwitch";
+// import { Footer } from "../components/Footer";
+// import { Hero } from "../components/Hero";
+import { Navbar } from "../components/Navbar";
 
 export default function HomePage() {
   const [message, setMessage] = React.useState("No message found");
@@ -19,12 +20,13 @@ export default function HomePage() {
   return (
     <React.Fragment>
       <Head>
-        <title>Home - Nextron (with-chakra-ui)</title>
+        <title>Arweave-Miner UI</title>
       </Head>
       <Container minHeight="100vh">
-        <DarkModeSwitch />
-        <Hero title={`⚡Electron⚡ + Next.js + Chakra UI = 🔥`} />
-        <Footer>
+        {/* <DarkModeSwitch /> */}
+        <Navbar />
+        {/* <Hero title={`⚡Electron⚡ + Next.js + Chakra UI = 🔥`} /> */}
+        {/* <Footer>
           <Button
             as={ChakraLink}
             href="/next"
@@ -35,7 +37,7 @@ export default function HomePage() {
           >
             Go to next page
           </Button>
-        </Footer>
+        </Footer> */}
       </Container>
     </React.Fragment>
   );
