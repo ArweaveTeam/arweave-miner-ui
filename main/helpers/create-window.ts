@@ -1,5 +1,14 @@
-import { screen, BrowserWindow, BrowserWindowConstructorOptions, Rectangle } from "electron";
+import os from "os";
+import {
+  nativeImage,
+  screen,
+  BrowserWindow,
+  BrowserWindowConstructorOptions,
+  Rectangle,
+} from "electron";
 import Store from "electron-store";
+
+const platform = os.platform();
 
 export const createWindow = (
   windowName: string,
@@ -17,8 +26,8 @@ export const createWindow = (
   const restore = () => store.get(key, defaultSize);
 
   const getCurrentPosition = () => {
-    const position = win.getPosition();
-    const size = win.getSize();
+    const position = mainWindow.getPosition();
+    const size = mainWindow.getSize();
     return {
       x: position[0],
       y: position[1],
@@ -57,7 +66,7 @@ export const createWindow = (
   };
 
   const saveState = () => {
-    if (!win.isMinimized() && !win.isMaximized()) {
+    if (!mainWindow.isMinimized() && !mainWindow.isMaximized()) {
       Object.assign(state, getCurrentPosition());
     }
     store.set(key, state);
@@ -65,7 +74,7 @@ export const createWindow = (
 
   state = ensureVisibleOnSomeDisplay(restore());
 
-  const win = new BrowserWindow({
+  const mainWindow = new BrowserWindow({
     ...state,
     ...options,
     webPreferences: {
@@ -75,7 +84,19 @@ export const createWindow = (
     },
   });
 
-  win.on("close", saveState);
+  switch (os.platform()) {
+    case "darwin":
+      mainWindow.setIcon(nativeImage.createFromPath("resources/icon.icns"));
+      break;
+    case "win32":
+      mainWindow.setIcon(nativeImage.createFromPath("resources/icon.ico"));
+      break;
+    default:
+      mainWindow.setIcon(nativeImage.createFromPath("resources/arweave_icon.png"));
+      break;
+  }
 
-  return win;
+  mainWindow.on("close", saveState);
+
+  return mainWindow;
 };
