@@ -4,7 +4,7 @@ export const fmtSize = (valueBn: string) => {
   let value = Number(valueBn);
   let idx = 0;
 
-  while (true) {
+  for (idx = 0; idx < sizeMvList.length; idx++) {
     const mv = sizeMvList[idx];
     if (value < 900 || idx + 1 >= sizeMvList.length) {
       if (idx === 0) {
@@ -14,22 +14,18 @@ export const fmtSize = (valueBn: string) => {
       }
     }
     value /= 1024;
-    idx++;
   }
 };
 
 export const sizeNetList = [".Bps", "KBps", "MBps", "GBps", "TBps", "PBps"];
 
 export const fmtNetSpeed = (value: number) => {
-  let idx = 0;
-
-  while (true) {
+  for (let idx = 0; idx < sizeNetList.length; idx++) {
     const mv = sizeNetList[idx];
     if (value < 900 || idx + 1 >= sizeNetList.length) {
       return `${value.toFixed(2)} ${mv}`;
     }
     value /= 1024;
-    idx++;
   }
 };
 
