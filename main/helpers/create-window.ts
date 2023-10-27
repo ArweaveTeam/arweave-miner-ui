@@ -8,8 +8,6 @@ import {
 } from "electron";
 import Store from "electron-store";
 
-const platform = os.platform();
-
 export const createWindow = (
   windowName: string,
   options: BrowserWindowConstructorOptions,

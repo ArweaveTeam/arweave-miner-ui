@@ -35,10 +35,10 @@ app.on("window-all-closed", () => {
   app.quit();
 });
 
-ipcMain.on("message", async (event: any, arg: any) => {
+ipcMain.on("message", async (event, arg) => {
   event.reply("message", `${arg} World!`);
 });
 
-ipcMain.on("open-url", async (event: any, arg: any) => {
+ipcMain.on("open-url", async (event, arg) => {
   shell.openExternal(arg);
 });
