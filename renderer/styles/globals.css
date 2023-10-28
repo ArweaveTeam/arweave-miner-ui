@@ -1,0 +1,15 @@
+body {
+  min-width: 640px;
+  overflow: scroll;
+}
+@font-face {
+  font-family: "Roboto Mono";
+  src: url("/fonts/Roboto_Mono/RobotoMono-VariableFont_wght.ttf") format("truetype");
+  font-weight: 125 950;
+  font-stretch: 75% 125%;
+  font-style: normal;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
