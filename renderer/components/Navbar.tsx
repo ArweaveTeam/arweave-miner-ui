@@ -46,16 +46,16 @@ export default function Navbar() {
                             window.ipc.send("open-url", target);
                         }
                     }}
-                    className={`block px-5 py-2 rounded hover:bg-gray-100 ${router.pathname == href ? "font-medium bg-gray-100" : "font-light"}`}>{label}</a>
+                    className={`block px-5 py-2 rounded hover:bg-gray-200 ${router.pathname == href ? "font-medium bg-gray-100" : "font-light"}`}>{label}</a>
             </Link >
         )
     }
 
     return (
-        <header className='w-full border-b border-gray-200 py-9'>
-            <nav className="fixed w-full z-20 top-0 left-0">
+        <header className='w-full py-9'>
+            <nav className="fixed w-full z-20 top-0 left-0 border-b border-gray-300 bg-[#F1F1F1]">
                 <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                    <Link href="/" passHref>
+                    <Link href="/home" passHref>
                         <a className="flex items-center">
                             <img src={ASSET.ArweaveLogo} alt="arweave-logo" className="w-8 h-8 mr-2" />
                         </a>
