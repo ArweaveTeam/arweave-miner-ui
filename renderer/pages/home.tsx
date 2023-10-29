@@ -1,4 +1,5 @@
 import React from "react";
+import { MainLayout } from "../layouts";
 
 export default function HomePage() {
   const [message, setMessage] = React.useState("No message found");
@@ -11,8 +12,8 @@ export default function HomePage() {
   }, []);
 
   return (
-    <>
-      <h1 className="text-3xl font-semibold">{message}</h1>
-    </>
+    <MainLayout>
+      <h1 className="text-3xl font-semibold">Homepage screen</h1>
+    </MainLayout>
   );
 }
