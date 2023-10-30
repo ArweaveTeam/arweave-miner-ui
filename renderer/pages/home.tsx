@@ -1,9 +1,12 @@
 import React from "react";
 import { MainLayout } from "../layouts";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import { selectMinorState } from "../store/minorSlice";
 
 export default function HomePage() {
   const router = useRouter();
+  const minorState = useSelector(selectMinorState);
 
   // const [message, setMessage] = React.useState("No message found");
 
@@ -13,6 +16,10 @@ export default function HomePage() {
   //     console.log(message);
   //   });
   // }, []);
+
+  React.useEffect(() => {
+    console.log(minorState);
+  }, []);
 
   const handleConnectDashboardBtn = () => {
     router.push("/dashboard");
