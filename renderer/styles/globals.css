@@ -2,6 +2,7 @@ body {
   min-width: 640px;
   overflow: scroll;
   font-family: "Roboto Mono", monospace;
+  background-color: #F1F1F1;
 }
 @font-face {
   font-family: "Roboto Mono";
