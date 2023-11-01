@@ -1,0 +1,25 @@
+body {
+  min-width: 640px;
+  overflow: scroll;
+  font-family: "Roboto Mono", monospace;
+  background-color: #f1f1f1;
+}
+@font-face {
+  font-family: "Roboto Mono";
+  src: url("/fonts/Roboto_Mono/RobotoMono-VariableFont_wght.ttf") format("truetype");
+  font-weight: 125 950;
+  font-stretch: 75% 125%;
+  font-style: normal;
+}
+
+@tailwind base;
+@tailwind components;
+
+.not-active-scrollspy-menu {
+  @apply relative font-normal text-gray-400 before:absolute before:content-[''] before:h-4 before:w-4 before:rounded-sm before:bg-[#D9D9D9] before:-left-6 before:top-1/2 before:-translate-y-1/2;
+}
+
+.active-scrollspy-menu {
+  @apply text-gray-900 before:bg-[#FF4D00] font-medium;
+}
+@tailwind utilities;
