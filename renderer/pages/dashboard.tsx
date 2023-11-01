@@ -70,9 +70,9 @@ export default function DashboardPage() {
 
         setActiveMenu(e.currentTarget.href.split("#")[1]);
         if (target) {
-            var headerOffset = 20;
-            var elementPosition = target.getBoundingClientRect().top;
-            var offsetPosition = elementPosition - headerOffset;
+            const headerOffset = 20;
+            const elementPosition = target.getBoundingClientRect().top;
+            const offsetPosition = elementPosition - headerOffset;
 
             window.scrollBy({
                 top: offsetPosition,
@@ -89,9 +89,9 @@ export default function DashboardPage() {
 
     return (
         <MainLayout>
-            <div className="w-full flex">
+            <div className="w-full flex px-6">
                 <div className="px-4 w-64 relative">
-                    <nav className="sticky top-14 pt-4">
+                    <nav className="sticky top-14 pt-8">
                         <ul className="space-y-2">
                             {menuItems.map((item: MenuItems) => (
                                 <li key={item.target} className="pl-6">
@@ -122,7 +122,7 @@ export default function DashboardPage() {
                     </nav>
                 </div>
 
-                <div className="md:w-3/4 px-4 border-l border-gray-300 pt-4">
+                <div className="md:w-3/4 px-4 border-l border-gray-300 pt-8">
                     <ScrollSpy
                         useBoxMethod={true}
                         activeClass={"active-scrollspy-menu"}
