@@ -4,9 +4,9 @@ import { HYDRATE } from "next-redux-wrapper";
 
 // Type for our state
 export interface MinorState {
-    data_packaged: any;
-    hash_rate: any;
-    earnings: any;
+    data_packaged: number | null;
+    hash_rate: number | null;
+    earnings: number | null;
 }
 
 const initialState: MinorState = {
