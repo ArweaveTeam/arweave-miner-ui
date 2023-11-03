@@ -1,7 +1,5 @@
 import React from "react";
 import { MainLayout } from "../layouts";
-import parsePrometheusTextFormat from 'parse-prometheus-text-format';
-import { Arweave_API } from "../lib/arweave";
 import { setMinorState, selectMinorState } from "../store/minorSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { MinorParser } from "../types/Minor";
@@ -46,19 +44,9 @@ export default function DashboardPage() {
 
     React.useEffect(() => {
         (async () => {
-            const res = await Arweave_API.api.get('/metrics');
-            const data = res.data;
-            const parsed: MinorParser[] = parsePrometheusTextFormat(data);
-            // console.log(parsed);
-            const data_packaged = parsed.find((item: MinorParser) => item.name === 'v2_index_data_size_by_packing')?.metrics[0].value;
-            const hash_rate = parsed.find((item: MinorParser) => item.name === 'average_network_hash_rate').metrics[0].value;
-            const earnings = parsed.find((item: MinorParser) => item.name === 'average_block_reward').metrics[0].value;
+            const data = await window.ipc.request("metrics");
 
-            dispatch(setMinorState({
-                data_packaged,
-                hash_rate,
-                earnings,
-            }));
+            dispatch(setMinorState(data));
         })()
     }, []);
 
@@ -134,6 +122,9 @@ export default function DashboardPage() {
                                 <div id="sub-section-1-1" className="bg-gray-100 p-4 rounded-lg h-64">
                                     <h3 className="text-lg font-medium mb-2">Data Related</h3>
                                     <p className="text-gray-700">Data packaged: {minorState.data_packaged}</p>
+                                    {minorState.data_unpackaged?
+                                        <p className="text-gray-700">Data unpackaged: {minorState.data_unpackaged}</p>
+                                    :null}
                                 </div>
                                 <div id="sub-section-1-2" className="bg-gray-100 p-4 rounded-lg h-64">
                                     <h3 className="text-lg font-medium mb-2">Hash Rate</h3>
