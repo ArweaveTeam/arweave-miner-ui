@@ -13,7 +13,8 @@
     "check:lint": "npx eslint .",
     "check:types": "npx tsc --noEmit",
     "format:renderer": "prettier --write \"renderer/**/*.{js,jsx,ts,tsx,css}\"",
-    "format:main": "prettier --write \"main/**/*.{js,ts}\""
+    "format:main": "prettier --write \"main/**/*.{js,ts}\"",
+    "prepare": "husky install && husky add .husky/pre-commit \"npm run check:lint && npm run check:types\" && husky add .husky/pre-commit \"npm run format:renderer && npm run format:main\""
   },
   "husky": {
     "hooks": {
