@@ -4,8 +4,8 @@ const handler = {
   send(channel: string, value: unknown) {
     ipcRenderer.send(channel, value);
   },
-  request : async function(channel: string, value: unknown) {
-    return new Promise((resolve, reject)=>{
+  request : function(channel: string, value: unknown):Promise<unknown> {
+    return new Promise((resolve: (...args: unknown[]) => void)=>{
       const subscription = (_event: IpcRendererEvent, ...args: unknown[]) => {
         ipcRenderer.off(channel, subscription);
         resolve(...args)

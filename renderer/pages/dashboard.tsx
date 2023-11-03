@@ -2,7 +2,6 @@ import React from "react";
 import { MainLayout } from "../layouts";
 import { setMinorState, selectMinorState } from "../store/minorSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { MinorParser } from "../types/Minor";
 import ScrollSpy from "react-ui-scrollspy";
 
 interface MenuItems {
@@ -44,7 +43,7 @@ export default function DashboardPage() {
 
     React.useEffect(() => {
         (async () => {
-            const data = await window.ipc.request("metrics");
+            const data = await window.ipc.request("metrics",{});
 
             dispatch(setMinorState(data));
         })()
