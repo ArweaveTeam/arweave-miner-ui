@@ -4,11 +4,7 @@ export type MinorParser = {
     type: string;
     metrics: {
         value: string;
-        labels: {
-            [key: string]: string;
-        };
-        buckets: {
-            [key: string]: string;
-        };
+        labels: Record<string, string>;
+        buckets: Record<string, string>;
     }[]
 }

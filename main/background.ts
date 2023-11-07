@@ -4,6 +4,7 @@ import serve from "electron-serve";
 import { createWindow } from "./helpers";
 import parsePrometheusTextFormat from 'parse-prometheus-text-format';
 import { MinorParser } from "./types/Minor";
+import { Metrics } from "../types/metrics";
 
 const isProd = process.env.NODE_ENV === "production";
 
@@ -79,14 +80,15 @@ ipcMain.on("metrics", async (event) => {
       }
     }
   }
-  
-  event.reply("metrics", {
+  const metrics : Metrics = {
     data_unpackaged,
     data_packaged,
     hash_rate,
     earnings,
     vdf_time_lower_bound,
-  });
+  }
+  
+  event.reply("metrics", metrics);
 });
 
 ipcMain.on("open-url", async (event, arg) => {
