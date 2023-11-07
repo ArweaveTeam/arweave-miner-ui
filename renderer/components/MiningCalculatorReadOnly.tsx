@@ -30,9 +30,5 @@ export const MiningCalculatorReadOnly: FC<MiningCalculatorReadOnlyProps> = () =>
   //   return;
   // });
 
-  return (
-    <>
-      Mining Calculator
-    </>
-  );
+  return <>Mining Calculator</>;
 };
