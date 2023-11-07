@@ -2,7 +2,7 @@ import path from "path";
 import { app, ipcMain, shell } from "electron";
 import serve from "electron-serve";
 import { createWindow } from "./helpers";
-import parsePrometheusTextFormat from 'parse-prometheus-text-format';
+import parsePrometheusTextFormat from "parse-prometheus-text-format";
 import { MinorParser } from "./types/Minor";
 import { Metrics } from "../types/metrics";
 
@@ -42,37 +42,44 @@ ipcMain.on("message", async (event, arg) => {
   event.reply("message", `${arg} World!`);
 });
 
-
 function metric_string_parse(item): number | null {
   if (!item) return null;
   return +item.metrics[0].value;
 }
 ipcMain.on("metrics", async (event) => {
-  const res = await fetch('http://testnet-3.arweave.net:1984/metrics');
+  const res = await fetch("http://testnet-3.arweave.net:1984/metrics");
   const data = await res.text();
-  
+
   const parsed: MinorParser[] = parsePrometheusTextFormat(data);
   let data_unpackaged = 0;
   let data_packaged = 0;
-  const packing_item = parsed.find((item: MinorParser) => item.name === 'v2_index_data_size_by_packing');
+  const packing_item = parsed.find(
+    (item: MinorParser) => item.name === "v2_index_data_size_by_packing",
+  );
   if (packing_item) {
-    packing_item.metrics.forEach((item)=>{
+    packing_item.metrics.forEach((item) => {
       // unpacked storage modules are not involved in mining
       if (item.labels.packing == "unpacked") {
         data_unpackaged += +item.value;
       } else {
         data_packaged += +item.value;
       }
-    })
+    });
   }
-  const hash_rate = metric_string_parse(parsed.find((item: MinorParser) => item.name === 'average_network_hash_rate'));
-  const earnings = metric_string_parse(parsed.find((item: MinorParser) => item.name === 'average_block_reward'));
-  
-  const vdf_step_time_milliseconds_bucket = parsed.find((item: MinorParser) => item.name === 'vdf_step_time_milliseconds');
-  let vdf_time_lower_bound : number | null = null;
+  const hash_rate = metric_string_parse(
+    parsed.find((item: MinorParser) => item.name === "average_network_hash_rate"),
+  );
+  const earnings = metric_string_parse(
+    parsed.find((item: MinorParser) => item.name === "average_block_reward"),
+  );
+
+  const vdf_step_time_milliseconds_bucket = parsed.find(
+    (item: MinorParser) => item.name === "vdf_step_time_milliseconds",
+  );
+  let vdf_time_lower_bound: number | null = null;
   if (vdf_step_time_milliseconds_bucket) {
     const buckets = vdf_step_time_milliseconds_bucket.metrics[0].buckets;
-    for(const k in buckets) {
+    for (const k in buckets) {
       const value = buckets[k];
       if (value === "0") continue;
       if (!vdf_time_lower_bound) {
@@ -80,14 +87,14 @@ ipcMain.on("metrics", async (event) => {
       }
     }
   }
-  const metrics : Metrics = {
+  const metrics: Metrics = {
     data_unpackaged,
     data_packaged,
     hash_rate,
     earnings,
     vdf_time_lower_bound,
-  }
-  
+  };
+
   event.reply("metrics", metrics);
 });
 
