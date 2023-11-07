@@ -43,7 +43,7 @@ export default function DashboardPage() {
 
   React.useEffect(() => {
     (async () => {
-      const data = await window.ipc.request("metrics", {});
+      const data = await window.ipc.requestMetrics();
 
       dispatch(setMinorState(data));
     })();

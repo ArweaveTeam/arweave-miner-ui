@@ -10,6 +10,7 @@
     "dev": "nextron",
     "build": "nextron build",
     "postinstall": "electron-builder install-app-deps",
+    "check": "npm run check:lint && npm run check:types",
     "check:lint": "npx eslint .",
     "check:types": "npx tsc --noEmit",
     "format:renderer": "prettier --write \"renderer/**/*.{js,jsx,ts,tsx,css}\"",
