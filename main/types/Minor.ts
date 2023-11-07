@@ -7,5 +7,8 @@ export type MinorParser = {
         labels: {
             [key: string]: string;
         };
+        buckets: {
+            [key: string]: string;
+        };
     }[]
 }

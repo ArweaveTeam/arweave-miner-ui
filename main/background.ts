@@ -70,7 +70,7 @@ ipcMain.on("metrics", async (event) => {
   const vdf_step_time_milliseconds_bucket = parsed.find((item: MinorParser) => item.name === 'vdf_step_time_milliseconds');
   let vdf_time_lower_bound : number | null = null;
   if (vdf_step_time_milliseconds_bucket) {
-    const buckets = (vdf_step_time_milliseconds_bucket.metrics[0] as unknown).buckets;
+    const buckets = vdf_step_time_milliseconds_bucket.metrics[0].buckets;
     for(const k in buckets) {
       const value = buckets[k];
       if (value === "0") continue;
