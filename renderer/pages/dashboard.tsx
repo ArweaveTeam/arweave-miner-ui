@@ -3,6 +3,10 @@ import { MainLayout } from "../layouts";
 import { setMinorState, selectMinorState } from "../store/minorSlice";
 import { useDispatch, useSelector } from "react-redux";
 import ScrollSpy from "react-ui-scrollspy";
+import DataRelated from "../components/Charts/DataRelated";
+import { Metrics } from "../types/Minor";
+import { DataRelatedChart } from "../types/Charts";
+import { convertToGbFromPetabytes } from "../util/minor";
 
 interface MenuItems {
   label: string;
@@ -17,6 +21,20 @@ interface SubMenuItems {
 export default function DashboardPage() {
   const minorState = useSelector(selectMinorState);
   const dispatch = useDispatch();
+  const [dataRelated, setDataRelated] = React.useState<DataRelatedChart>({
+    data_package: {
+      size: 0,
+      unit: "GB",
+    },
+    storage_available: {
+      size: 0,
+      unit: "GB",
+    },
+    total_size: {
+      size: 0,
+      unit: "TB",
+    },
+  });
 
   const [activeMenu, setActiveMenu] = React.useState<string>();
 
@@ -43,9 +61,29 @@ export default function DashboardPage() {
 
   React.useEffect(() => {
     (async () => {
-      const data = await window.ipc.requestMetrics();
+      const data: Metrics = await window.ipc.requestMetrics();
+      console.log("requestMetrics", data);
+      if (data) {
+        dispatch(setMinorState(data));
 
-      dispatch(setMinorState(data));
+        setDataRelated((prev) => {
+          return {
+            ...prev,
+            data_package: {
+              size: convertToGbFromPetabytes(data.data_packaged) || 0,
+              unit: "GB",
+            },
+            storage_available: {
+              size: convertToGbFromPetabytes(data.data_unpackaged) || 0,
+              unit: "GB",
+            },
+            total_size: {
+              size: data.data_packaged + data.data_unpackaged,
+              unit: "TB",
+            },
+          };
+        });
+      }
     })();
   }, []);
 
@@ -120,10 +158,11 @@ export default function DashboardPage() {
               <div className="space-y-4">
                 <div id="sub-section-1-1" className="bg-gray-100 p-4 rounded-lg h-64">
                   <h3 className="text-lg font-medium mb-2">Data Related</h3>
-                  <p className="text-gray-700">Data packaged: {minorState.data_packaged}</p>
-                  {minorState.data_unpackaged ? (
-                    <p className="text-gray-700">Data unpackaged: {minorState.data_unpackaged}</p>
-                  ) : null}
+                  <DataRelated
+                    data_package={dataRelated.data_package}
+                    storage_available={dataRelated.storage_available}
+                    total_size={dataRelated.total_size}
+                  />
                 </div>
                 <div id="sub-section-1-2" className="bg-gray-100 p-4 rounded-lg h-64">
                   <h3 className="text-lg font-medium mb-2">Hash Rate</h3>
