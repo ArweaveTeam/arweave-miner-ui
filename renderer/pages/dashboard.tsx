@@ -4,9 +4,9 @@ import { setMinorState, selectMinorState } from "../store/minorSlice";
 import { useDispatch, useSelector } from "react-redux";
 import ScrollSpy from "react-ui-scrollspy";
 import DataRelated from "../components/Charts/DataRelated";
-import { Metrics } from "../types/Minor";
+import { Metrics } from "../../types/metrics";
 import { DataRelatedChart } from "../types/Charts";
-import { convertToGbFromPetabytes } from "../util/minor";
+import { fmt_size } from "../util/minor";
 
 interface MenuItems {
   label: string;
@@ -22,16 +22,20 @@ export default function DashboardPage() {
   const minorState = useSelector(selectMinorState);
   const dispatch = useDispatch();
   const [dataRelated, setDataRelated] = React.useState<DataRelatedChart>({
+    // TODO loading state
     data_package: {
-      size: 0,
-      unit: "GB",
+      value: 0,
+      display_value: "0",
+      unit: "TB",
     },
     storage_available: {
-      size: 0,
-      unit: "GB",
+      value: 0,
+      display_value: "0",
+      unit: "TB",
     },
     total_size: {
-      size: 0,
+      value: 0,
+      display_value: "0",
       unit: "TB",
     },
   });
@@ -69,18 +73,9 @@ export default function DashboardPage() {
         setDataRelated((prev) => {
           return {
             ...prev,
-            data_package: {
-              size: convertToGbFromPetabytes(data.data_packaged) || 0,
-              unit: "GB",
-            },
-            storage_available: {
-              size: convertToGbFromPetabytes(data.data_unpackaged) || 0,
-              unit: "GB",
-            },
-            total_size: {
-              size: data.data_packaged + data.data_unpackaged,
-              unit: "TB",
-            },
+            data_package: fmt_size(data.data_packaged),
+            storage_available: fmt_size(data.storage_available),
+            total_size: fmt_size(data.weave_size),
           };
         });
       }

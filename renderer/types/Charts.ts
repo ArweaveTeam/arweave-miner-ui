@@ -1,26 +1,23 @@
+export type ValueWithMeasureValue = {
+  value: number;
+  display_value: string;
+  unit: string;
+};
 export type DataRelatedChart = {
-  data_package: {
-    size: number;
-    unit: string;
-  };
-  storage_available: {
-    size: number;
-    unit: string;
-  };
-  total_size: {
-    size: number;
-    unit: string;
-  };
+  data_package: ValueWithMeasureValue;
+  storage_available: ValueWithMeasureValue;
+  total_size: ValueWithMeasureValue;
 };
 
+// TODO merge into 1 type
 export type TopArrow = {
-  value: number;
+  value: string;
   unit: string;
   color: string;
 };
 
 export type BottomArrow = {
-  value: number;
+  value: string;
   unit: string;
   color: string;
 };

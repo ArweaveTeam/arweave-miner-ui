@@ -13,7 +13,7 @@ export default function DataRelated({
           width: "2%",
         }}
       >
-        <TopArrow value={data_package.size} unit={data_package.unit} color="#7BF05E" />
+        <TopArrow value={data_package.display_value} unit={data_package.unit} color="#7BF05E" />
       </div>
 
       <div
@@ -22,11 +22,15 @@ export default function DataRelated({
           width: "4%",
         }}
       >
-        <BottomArrow value={storage_available.size} unit={storage_available.unit} color="#1D2988" />
+        <BottomArrow
+          value={storage_available.display_value}
+          unit={storage_available.unit}
+          color="#1D2988"
+        />
       </div>
 
       <div className="w-full bg-[#A7A7A7] hover:bg-[#989797] h-full cursor-pointer relative group">
-        <TopArrow value={total_size.size} unit={total_size.unit} color="#A7A7A7" />
+        <TopArrow value={total_size.display_value} unit={total_size.unit} color="#A7A7A7" />
       </div>
     </div>
   );
