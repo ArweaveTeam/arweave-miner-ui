@@ -6,7 +6,7 @@ import ScrollSpy from "react-ui-scrollspy";
 import DataRelated from "../components/Charts/DataRelated";
 import { Metrics } from "../../types/metrics";
 import { DataRelatedChart } from "../types/Charts";
-import { fmt_size } from "../util/minor";
+import { fmtSize } from "../util/minor";
 
 interface MenuItems {
   label: string;
@@ -73,9 +73,9 @@ export default function DashboardPage() {
         setDataRelated((prev) => {
           return {
             ...prev,
-            data_package: fmt_size(data.data_packaged),
-            storage_available: fmt_size(data.storage_available),
-            total_size: fmt_size(data.weave_size),
+            data_package: fmtSize(data.data_packaged),
+            storage_available: fmtSize(data.storage_available),
+            total_size: fmtSize(data.weave_size),
           };
         });
       }
