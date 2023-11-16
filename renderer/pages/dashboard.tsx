@@ -17,12 +17,11 @@ interface SubMenuItems {
 }
 
 export default function DashboardPage() {
-  const [hasMounted, setHasMounted] = useState(false);
   // NOTE maybe later we should rename this store
   const minorState = useSelector(selectMinorState);
   const dispatch = useDispatch();
 
-  const [activeMenu, setActiveMenu] = React.useState<string>();
+  const [activeMenu, setActiveMenu] = useState<string>();
 
   const menuItems: MenuItems[] = [
     {
@@ -46,16 +45,15 @@ export default function DashboardPage() {
   ];
 
   useEffect(() => {
-    if (!hasMounted) {
-      setHasMounted(true);
-      window.ipc.requestMetrics().then((data: Metrics) => {
-        console.log("requestMetrics", data);
-        if (data) {
-          dispatch(setMetricsState(data));
-        }
-      });
-    }
-  }, [hasMounted, setHasMounted, dispatch]);
+    const handler = (_event: unknown, data: Metrics) => {
+      console.log("DEBUG: requestMetrics", data);
+      dispatch(setMetricsState(data));
+    };
+    window.ipc.metricsSub(handler);
+    return () => {
+      window.ipc.metricsUnsub(handler);
+    };
+  }, [dispatch]);
 
   const handleMenuClick = useCallback(
     (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
