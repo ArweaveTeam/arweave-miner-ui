@@ -1,12 +1,13 @@
 import React from "react";
+import { fmtSize } from "../../util/minor";
 
 interface ArrowProps {
-  value: number;
-  unit: string;
+  value: number | null;
   color: string;
 }
 
-export function TopArrow({ value, unit, color }: ArrowProps) {
+export function TopArrow({ value, color }: ArrowProps) {
+  const { value: displayValue, unit } = fmtSize(value || 0);
   return (
     <div className="absolute -top-5 left-1/2 flex">
       <div className="w-[1px] h-5 bg-gray-500"></div>
@@ -20,13 +21,14 @@ export function TopArrow({ value, unit, color }: ArrowProps) {
       ></div>
 
       <div className="w-fit text-xs flex items-center gap-2 -mt-[20px] ml-[5px]">
-        <span>{value}</span> <span>{unit}</span>
+        <span>{displayValue}</span> <span>{unit}</span>
       </div>
     </div>
   );
 }
 
-export function BottomArrow({ value, unit, color }: ArrowProps) {
+export function BottomArrow({ value, color }: ArrowProps) {
+  const { value: displayValue, unit } = fmtSize(value || 0);
   return (
     <div className="absolute -bottom-7 left-1/2 flex">
       <div className="w-[1px] h-5 bg-gray-500 mt-5"></div>
@@ -40,7 +42,7 @@ export function BottomArrow({ value, unit, color }: ArrowProps) {
       ></div>
 
       <div className="w-fit text-xs flex items-center gap-2 mt-[30px] ml-[5px]">
-        <span>{value}</span> <span>{unit}</span>
+        <span>{displayValue}</span> <span>{unit}</span>
       </div>
     </div>
   );
