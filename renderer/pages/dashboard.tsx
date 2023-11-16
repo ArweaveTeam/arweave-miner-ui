@@ -1,11 +1,11 @@
-import React from "react";
-import { MainLayout } from "../layouts";
-import { setMinorState, selectMinorState } from "../store/minorSlice";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ScrollSpy from "react-ui-scrollspy";
-import DataRelated from "../components/Charts/DataRelated";
+import DataRelatedChart from "../components/Charts/DataRelated";
+import { MainLayout } from "../layouts";
+import { setMinorState, selectMinorState } from "../store/minorSlice";
 import { Metrics } from "../../types/metrics";
-import { DataRelatedChart } from "../types/Charts";
+import { DataSize } from "../types/generic";
 import { fmtSize } from "../util/minor";
 
 interface MenuItems {
@@ -18,25 +18,27 @@ interface SubMenuItems {
   target: string;
 }
 
+type MetricKeys = "totalWeaveSize" | "storageAvailable" | "dataPackage";
+
+type LocalMetricsState = Record<MetricKeys, DataSize>;
+
 export default function DashboardPage() {
+  const [hasMounted, setHasMounted] = useState(false);
   const minorState = useSelector(selectMinorState);
   const dispatch = useDispatch();
-  const [dataRelated, setDataRelated] = React.useState<DataRelatedChart>({
+  const [dataRelated, setDataRelated] = useState<LocalMetricsState>({
     // TODO loading state
-    data_package: {
+    dataPackage: {
       value: 0,
-      display_value: "0",
-      unit: "TB",
+      unit: "tb",
     },
-    storage_available: {
+    storageAvailable: {
       value: 0,
-      display_value: "0",
-      unit: "TB",
+      unit: "tb",
     },
-    total_size: {
+    totalWeaveSize: {
       value: 0,
-      display_value: "0",
-      unit: "TB",
+      unit: "tb",
     },
   });
 
@@ -63,41 +65,43 @@ export default function DashboardPage() {
     },
   ];
 
-  React.useEffect(() => {
-    (async () => {
-      const data: Metrics = await window.ipc.requestMetrics();
-      console.log("requestMetrics", data);
-      if (data) {
-        dispatch(setMinorState(data));
+  useEffect(() => {
+    if (!hasMounted) {
+      setHasMounted(true);
+      window.ipc.requestMetrics().then((data: Metrics) => {
+        console.log("requestMetrics", data);
+        if (data) {
+          dispatch(setMinorState(data));
 
-        setDataRelated((prev) => {
-          return {
-            ...prev,
-            data_package: fmtSize(data.data_packaged),
-            storage_available: fmtSize(data.storage_available),
-            total_size: fmtSize(data.weave_size),
-          };
-        });
-      }
-    })();
-  }, []);
-
-  const handleMenuClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    e.preventDefault();
-    const target = window.document.getElementById(e.currentTarget.href.split("#")[1]);
-
-    setActiveMenu(e.currentTarget.href.split("#")[1]);
-    if (target) {
-      const headerOffset = 20;
-      const elementPosition = target.getBoundingClientRect().top;
-      const offsetPosition = elementPosition - headerOffset;
-
-      window.scrollBy({
-        top: offsetPosition,
-        behavior: "smooth",
+          setDataRelated({
+            dataPackage: fmtSize(data.data_packaged),
+            storageAvailable: fmtSize(data.storage_available),
+            totalWeaveSize: fmtSize(data.weave_size),
+          });
+        }
       });
     }
-  };
+  }, [hasMounted, setHasMounted, dispatch, setDataRelated]);
+
+  const handleMenuClick = useCallback(
+    (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+      event.preventDefault();
+      const target = window.document.getElementById(event.currentTarget.href.split("#")[1]);
+
+      setActiveMenu(event.currentTarget.href.split("#")[1]);
+      if (target) {
+        const headerOffset = 20;
+        const elementPosition = target.getBoundingClientRect().top;
+        const offsetPosition = elementPosition - headerOffset;
+
+        window.scrollBy({
+          top: offsetPosition,
+          behavior: "smooth",
+        });
+      }
+    },
+    [setActiveMenu],
+  );
 
   const handleScrollUpdate = (target: string) => {
     setActiveMenu(target);
@@ -153,10 +157,10 @@ export default function DashboardPage() {
               <div className="space-y-4">
                 <div id="sub-section-1-1" className="bg-gray-100 p-4 rounded-lg h-64">
                   <h3 className="text-lg font-medium mb-2">Data Related</h3>
-                  <DataRelated
-                    data_package={dataRelated.data_package}
-                    storage_available={dataRelated.storage_available}
-                    total_size={dataRelated.total_size}
+                  <DataRelatedChart
+                    dataPackage={dataRelated.dataPackage}
+                    storageAvailable={dataRelated.storageAvailable}
+                    totalWeaveSize={dataRelated.totalWeaveSize}
                   />
                 </div>
                 <div id="sub-section-1-2" className="bg-gray-100 p-4 rounded-lg h-64">
