@@ -59,7 +59,7 @@ export default function Navbar() {
   return (
     <header className="w-full">
       <nav className="fixed w-full z-20 top-0 left-0 border-b border-gray-300 bg-[#F1F1F1]">
-        <div className="flex flex-wrap items-center justify-between p-4 px-10">
+        <div className="flex whitespace-nowrap items-center justify-between p-4 px-10">
           <Link href="/home" passHref>
             <a className="flex items-center">
               <img src={ASSET.ArweaveLogo} alt="arweave-logo" className="w-8 h-8 mr-2" />
