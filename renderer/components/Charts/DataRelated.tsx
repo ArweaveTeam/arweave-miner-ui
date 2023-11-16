@@ -1,17 +1,17 @@
-import { DataSize } from "../../types/generic";
 import { BottomArrow, TopArrow } from "./Arrows";
 
 interface DataRelatedChartProps {
-  dataPackage: DataSize;
-  storageAvailable: DataSize;
-  totalWeaveSize: DataSize;
+  dataPacked: number | null;
+  storageAvailable: number | null;
+  weaveSize: number | null;
 }
 
 export default function DataRelatedChart({
-  dataPackage,
+  dataPacked,
   storageAvailable,
-  totalWeaveSize,
+  weaveSize,
 }: DataRelatedChartProps) {
+  // NOTE maybe this component should pick all stuff from storage directly
   return (
     <div className="w-96 h-20 flex items-center mt-20">
       <div
@@ -20,7 +20,7 @@ export default function DataRelatedChart({
           width: "2%",
         }}
       >
-        <TopArrow value={dataPackage.value} unit={dataPackage.unit} color="#7BF05E" />
+        <TopArrow value={dataPacked} color="#7BF05E" />
       </div>
 
       <div
@@ -29,11 +29,11 @@ export default function DataRelatedChart({
           width: "4%",
         }}
       >
-        <BottomArrow value={storageAvailable.value} unit={storageAvailable.unit} color="#1D2988" />
+        <BottomArrow value={storageAvailable} color="#1D2988" />
       </div>
 
       <div className="w-full bg-[#A7A7A7] hover:bg-[#989797] h-full cursor-pointer relative group">
-        <TopArrow value={totalWeaveSize.value} unit={totalWeaveSize.unit} color="#A7A7A7" />
+        <TopArrow value={weaveSize} color="#A7A7A7" />
       </div>
     </div>
   );

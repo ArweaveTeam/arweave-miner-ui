@@ -3,10 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import ScrollSpy from "react-ui-scrollspy";
 import DataRelatedChart from "../components/Charts/DataRelated";
 import { MainLayout } from "../layouts";
-import { setMinorState, selectMinorState } from "../store/minorSlice";
+import { setMetricsState, selectMinorState } from "../store/minorSlice";
 import { Metrics } from "../../types/metrics";
-import { DataSize } from "../types/generic";
-import { fmtSize } from "../util/minor";
 
 interface MenuItems {
   label: string;
@@ -18,29 +16,11 @@ interface SubMenuItems {
   target: string;
 }
 
-type MetricKeys = "totalWeaveSize" | "storageAvailable" | "dataPackage";
-
-type LocalMetricsState = Record<MetricKeys, DataSize>;
-
 export default function DashboardPage() {
   const [hasMounted, setHasMounted] = useState(false);
+  // NOTE maybe later we should rename this store
   const minorState = useSelector(selectMinorState);
   const dispatch = useDispatch();
-  const [dataRelated, setDataRelated] = useState<LocalMetricsState>({
-    // TODO loading state
-    dataPackage: {
-      value: 0,
-      unit: "tb",
-    },
-    storageAvailable: {
-      value: 0,
-      unit: "tb",
-    },
-    totalWeaveSize: {
-      value: 0,
-      unit: "tb",
-    },
-  });
 
   const [activeMenu, setActiveMenu] = React.useState<string>();
 
@@ -71,17 +51,11 @@ export default function DashboardPage() {
       window.ipc.requestMetrics().then((data: Metrics) => {
         console.log("requestMetrics", data);
         if (data) {
-          dispatch(setMinorState(data));
-
-          setDataRelated({
-            dataPackage: fmtSize(data.data_packaged),
-            storageAvailable: fmtSize(data.storage_available),
-            totalWeaveSize: fmtSize(data.weave_size),
-          });
+          dispatch(setMetricsState(data));
         }
       });
     }
-  }, [hasMounted, setHasMounted, dispatch, setDataRelated]);
+  }, [hasMounted, setHasMounted, dispatch]);
 
   const handleMenuClick = useCallback(
     (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
@@ -158,14 +132,14 @@ export default function DashboardPage() {
                 <div id="sub-section-1-1" className="bg-gray-100 p-4 rounded-lg h-64">
                   <h3 className="text-lg font-medium mb-2">Data Related</h3>
                   <DataRelatedChart
-                    dataPackage={dataRelated.dataPackage}
-                    storageAvailable={dataRelated.storageAvailable}
-                    totalWeaveSize={dataRelated.totalWeaveSize}
+                    dataPacked={minorState.dataPacked}
+                    storageAvailable={minorState.storageAvailable}
+                    weaveSize={minorState.weaveSize}
                   />
                 </div>
                 <div id="sub-section-1-2" className="bg-gray-100 p-4 rounded-lg h-64">
                   <h3 className="text-lg font-medium mb-2">Hash Rate</h3>
-                  <p className="text-gray-700">Hash rate: {minorState.hash_rate}</p>
+                  <p className="text-gray-700">Hash rate: {minorState.hashRate}</p>
                 </div>
                 <div id="sub-section-1-3" className="bg-gray-100 p-4 rounded-lg h-64">
                   <h3 className="text-lg font-medium mb-2">Earnings</h3>

@@ -54,9 +54,9 @@ async function getMetrics(): Promise<Metrics> {
   const data = await res.text();
 
   const parsed: MinorParser[] = parsePrometheusTextFormat(data);
-  let data_unpackaged = 0;
-  let data_packaged = 0;
-  let storage_available = 0;
+  let dataUnpacked = 0;
+  let dataPacked = 0;
+  let storageAvailable = 0;
   const packing_item = parsed.find(
     (item: MinorParser) => item.name === "v2_index_data_size_by_packing",
   );
@@ -64,14 +64,17 @@ async function getMetrics(): Promise<Metrics> {
     packing_item.metrics.forEach((item) => {
       // unpacked storage modules are not involved in mining
       if (item.labels.packing == "unpacked") {
-        data_unpackaged += +item.value;
+        dataUnpacked += +item.value;
       } else {
-        data_packaged += +item.value;
+        dataPacked += +item.value;
       }
-      storage_available += +item.labels.partition_size;
+      const partitionSize = +item.labels.partition_size;
+      if (isFinite(partitionSize)) {
+        storageAvailable += partitionSize;
+      }
     });
   }
-  const hash_rate = metric_string_parse(
+  const hashRate = metric_string_parse(
     parsed.find((item: MinorParser) => item.name === "average_network_hash_rate"),
   );
   const earnings = metric_string_parse(
@@ -81,29 +84,29 @@ async function getMetrics(): Promise<Metrics> {
   const vdf_step_time_milliseconds_bucket = parsed.find(
     (item: MinorParser) => item.name === "vdf_step_time_milliseconds",
   );
-  let vdf_time_lower_bound: number | null = null;
+  let vdfTimeLowerBound: number | null = null;
   if (vdf_step_time_milliseconds_bucket) {
     const buckets = vdf_step_time_milliseconds_bucket.metrics[0].buckets;
     for (const k in buckets) {
       const value = buckets[k];
       if (value === "0") continue;
-      if (!vdf_time_lower_bound) {
-        vdf_time_lower_bound = +k;
+      if (!vdfTimeLowerBound) {
+        vdfTimeLowerBound = +k;
       }
     }
   }
-  const weave_size = metric_string_parse(
+  const weaveSize = metric_string_parse(
     parsed.find((item: MinorParser) => item.name === "weave_size"),
   );
   console.log("DEBUG: getMetrics complete");
   return {
-    data_unpackaged,
-    data_packaged,
-    storage_available,
-    weave_size,
-    hash_rate,
+    dataUnpacked,
+    dataPacked,
+    storageAvailable,
+    weaveSize,
+    hashRate,
     earnings,
-    vdf_time_lower_bound,
+    vdfTimeLowerBound,
   };
 }
 
