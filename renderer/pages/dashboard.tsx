@@ -1,8 +1,12 @@
-import React from "react";
-import { MainLayout } from "../layouts";
-import { setMinorState, selectMinorState } from "../store/minorSlice";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ScrollSpy from "react-ui-scrollspy";
+import DataRelatedChart from "../components/Charts/DataRelated";
+import { MainLayout } from "../layouts";
+import { setMinorState, selectMinorState } from "../store/minorSlice";
+import { Metrics } from "../../types/metrics";
+import { DataSize } from "../types/generic";
+import { fmtSize } from "../util/minor";
 
 interface MenuItems {
   label: string;
@@ -14,9 +18,29 @@ interface SubMenuItems {
   target: string;
 }
 
+type MetricKeys = "totalWeaveSize" | "storageAvailable" | "dataPackage";
+
+type LocalMetricsState = Record<MetricKeys, DataSize>;
+
 export default function DashboardPage() {
+  const [hasMounted, setHasMounted] = useState(false);
   const minorState = useSelector(selectMinorState);
   const dispatch = useDispatch();
+  const [dataRelated, setDataRelated] = useState<LocalMetricsState>({
+    // TODO loading state
+    dataPackage: {
+      value: 0,
+      unit: "tb",
+    },
+    storageAvailable: {
+      value: 0,
+      unit: "tb",
+    },
+    totalWeaveSize: {
+      value: 0,
+      unit: "tb",
+    },
+  });
 
   const [activeMenu, setActiveMenu] = React.useState<string>();
 
@@ -41,30 +65,43 @@ export default function DashboardPage() {
     },
   ];
 
-  React.useEffect(() => {
-    (async () => {
-      const data = await window.ipc.requestMetrics();
+  useEffect(() => {
+    if (!hasMounted) {
+      setHasMounted(true);
+      window.ipc.requestMetrics().then((data: Metrics) => {
+        console.log("requestMetrics", data);
+        if (data) {
+          dispatch(setMinorState(data));
 
-      dispatch(setMinorState(data));
-    })();
-  }, []);
-
-  const handleMenuClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    e.preventDefault();
-    const target = window.document.getElementById(e.currentTarget.href.split("#")[1]);
-
-    setActiveMenu(e.currentTarget.href.split("#")[1]);
-    if (target) {
-      const headerOffset = 20;
-      const elementPosition = target.getBoundingClientRect().top;
-      const offsetPosition = elementPosition - headerOffset;
-
-      window.scrollBy({
-        top: offsetPosition,
-        behavior: "smooth",
+          setDataRelated({
+            dataPackage: fmtSize(data.data_packaged),
+            storageAvailable: fmtSize(data.storage_available),
+            totalWeaveSize: fmtSize(data.weave_size),
+          });
+        }
       });
     }
-  };
+  }, [hasMounted, setHasMounted, dispatch, setDataRelated]);
+
+  const handleMenuClick = useCallback(
+    (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+      event.preventDefault();
+      const target = window.document.getElementById(event.currentTarget.href.split("#")[1]);
+
+      setActiveMenu(event.currentTarget.href.split("#")[1]);
+      if (target) {
+        const headerOffset = 20;
+        const elementPosition = target.getBoundingClientRect().top;
+        const offsetPosition = elementPosition - headerOffset;
+
+        window.scrollBy({
+          top: offsetPosition,
+          behavior: "smooth",
+        });
+      }
+    },
+    [setActiveMenu],
+  );
 
   const handleScrollUpdate = (target: string) => {
     setActiveMenu(target);
@@ -120,10 +157,11 @@ export default function DashboardPage() {
               <div className="space-y-4">
                 <div id="sub-section-1-1" className="bg-gray-100 p-4 rounded-lg h-64">
                   <h3 className="text-lg font-medium mb-2">Data Related</h3>
-                  <p className="text-gray-700">Data packaged: {minorState.data_packaged}</p>
-                  {minorState.data_unpackaged ? (
-                    <p className="text-gray-700">Data unpackaged: {minorState.data_unpackaged}</p>
-                  ) : null}
+                  <DataRelatedChart
+                    dataPackage={dataRelated.dataPackage}
+                    storageAvailable={dataRelated.storageAvailable}
+                    totalWeaveSize={dataRelated.totalWeaveSize}
+                  />
                 </div>
                 <div id="sub-section-1-2" className="bg-gray-100 p-4 rounded-lg h-64">
                   <h3 className="text-lg font-medium mb-2">Hash Rate</h3>

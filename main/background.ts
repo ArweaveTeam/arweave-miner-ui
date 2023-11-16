@@ -46,13 +46,17 @@ function metric_string_parse(item): number | null {
   if (!item) return null;
   return +item.metrics[0].value;
 }
-ipcMain.on("metrics", async (event) => {
+
+// better dev quality, temp solution
+async function getMetrics(): Promise<Metrics> {
+  console.log("DEBUG: getMetrics start");
   const res = await fetch("http://testnet-3.arweave.net:1984/metrics");
   const data = await res.text();
 
   const parsed: MinorParser[] = parsePrometheusTextFormat(data);
   let data_unpackaged = 0;
   let data_packaged = 0;
+  let storage_available = 0;
   const packing_item = parsed.find(
     (item: MinorParser) => item.name === "v2_index_data_size_by_packing",
   );
@@ -64,6 +68,7 @@ ipcMain.on("metrics", async (event) => {
       } else {
         data_packaged += +item.value;
       }
+      storage_available += +item.labels.partition_size;
     });
   }
   const hash_rate = metric_string_parse(
@@ -87,15 +92,24 @@ ipcMain.on("metrics", async (event) => {
       }
     }
   }
-  const metrics: Metrics = {
+  const weave_size = metric_string_parse(
+    parsed.find((item: MinorParser) => item.name === "weave_size"),
+  );
+  console.log("DEBUG: getMetrics complete");
+  return {
     data_unpackaged,
     data_packaged,
+    storage_available,
+    weave_size,
     hash_rate,
     earnings,
     vdf_time_lower_bound,
   };
+}
 
-  event.reply("metrics", metrics);
+const cached_metrics: Promise<Metrics> = getMetrics();
+ipcMain.on("metrics", async (event) => {
+  event.reply("metrics", await cached_metrics);
 });
 
 ipcMain.on("open-url", async (event, arg) => {
