@@ -40,8 +40,8 @@ const menuItems: MenuItems[] = [
 
 export default function DashboardPage() {
   const dispatch = useDispatch();
-  const hashRate = useHashRate();
-  const earnings = useEarnings();
+  const { hashRate } = useHashRate();
+  const { earnings } = useEarnings();
 
   const [activeMenu, setActiveMenu] = useState<string>();
 

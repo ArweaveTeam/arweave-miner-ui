@@ -2,9 +2,9 @@ import { BottomArrow, TopArrow } from "./Arrows";
 import { useDataPacked, useStorageAvailable, useWeaveSize } from "../../store/metricsSliceHooks";
 
 export default function DataRelatedChart() {
-  const dataPacked = useDataPacked();
-  const storageAvailable = useStorageAvailable();
-  const weaveSize = useWeaveSize();
+  const { dataPacked } = useDataPacked();
+  const { storageAvailable } = useStorageAvailable();
+  const { weaveSize } = useWeaveSize();
 
   // NOTE maybe this component should pick all stuff from storage directly
   return (
