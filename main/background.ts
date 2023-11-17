@@ -1,10 +1,10 @@
 import path from "path";
-import { app, ipcMain, shell } from "electron";
+import { app, ipcMain, shell, BrowserWindow } from "electron";
 import serve from "electron-serve";
-import { createWindow } from "./helpers";
 import parsePrometheusTextFormat from "parse-prometheus-text-format";
-import { MinorParser } from "./types/Minor";
-import { Metrics } from "../types/metrics";
+import { createWindow } from "./helpers";
+import { PrometheusMetricParser } from "./types/prometheus";
+import { SetMetricsStateActionPayload } from "../types/metrics";
 
 const isProd = process.env.NODE_ENV === "production";
 
@@ -14,7 +14,8 @@ if (isProd) {
   app.setPath("userData", `${app.getPath("userData")} (development)`);
 }
 
-let mainWindow = null;
+let mainWindow: BrowserWindow;
+
 (async () => {
   await app.whenReady();
 
@@ -45,22 +46,22 @@ ipcMain.on("message", async (event, arg) => {
   event.reply("message", `${arg} World!`);
 });
 
-function metricStringParse(item): number | null {
+function metricStringParse(item: PrometheusMetricParser | undefined): number | null {
   if (!item) return null;
   return +item.metrics[0].value;
 }
 
-async function getMetrics(): Promise<Metrics> {
+async function getMetrics(): Promise<SetMetricsStateActionPayload> {
   console.log("DEBUG: getMetrics start");
   const res = await fetch("http://testnet-3.arweave.net:1984/metrics");
   const data = await res.text();
 
-  const parsed: MinorParser[] = parsePrometheusTextFormat(data);
+  const parsed: PrometheusMetricParser[] = parsePrometheusTextFormat(data) || [];
   let dataUnpacked = 0;
   let dataPacked = 0;
   let storageAvailable = 0;
   const packingItem = parsed.find(
-    (item: MinorParser) => item.name === "v2_index_data_size_by_packing",
+    (item: PrometheusMetricParser) => item.name === "v2_index_data_size_by_packing",
   );
   if (packingItem) {
     packingItem.metrics.forEach((item) => {
@@ -77,14 +78,14 @@ async function getMetrics(): Promise<Metrics> {
     });
   }
   const hashRate = metricStringParse(
-    parsed.find((item: MinorParser) => item.name === "average_network_hash_rate"),
+    parsed.find((item: PrometheusMetricParser) => item.name === "average_network_hash_rate"),
   );
   const earnings = metricStringParse(
-    parsed.find((item: MinorParser) => item.name === "average_block_reward"),
+    parsed.find((item: PrometheusMetricParser) => item.name === "average_block_reward"),
   );
 
   const vdf_step_time_milliseconds_bucket = parsed.find(
-    (item: MinorParser) => item.name === "vdf_step_time_milliseconds",
+    (item: PrometheusMetricParser) => item.name === "vdf_step_time_milliseconds",
   );
   let vdfTimeLowerBound: number | null = null;
   if (vdf_step_time_milliseconds_bucket) {
@@ -98,7 +99,7 @@ async function getMetrics(): Promise<Metrics> {
     }
   }
   const weaveSize = metricStringParse(
-    parsed.find((item: MinorParser) => item.name === "weave_size"),
+    parsed.find((item: PrometheusMetricParser) => item.name === "weave_size"),
   );
   console.log("DEBUG: getMetrics complete");
   return {
@@ -114,19 +115,19 @@ async function getMetrics(): Promise<Metrics> {
 
 // TODO make generic function for creating pub+sub endpoints
 // TODO make class for subscription management
-let cachedMetrics : Metrics | null = null;
+let cachedMetrics: SetMetricsStateActionPayload | null = null;
 let cachedMetricsStr = "";
 // TODO list of webContents
 // let cachedMetricsSubList = [];
 let cachedMetricsIsSubActive = false;
-let cachedMetricsTimeout : NodeJS.Timeout | null = null;
+let cachedMetricsTimeout: NodeJS.Timeout | null = null;
 let cachedMetricsUpdateInProgress = false;
 
 async function cachedMetricsUpdate() {
   try {
     cachedMetricsUpdateInProgress = true;
     cachedMetrics = await getMetrics();
-  } catch(err) {
+  } catch (err) {
     console.error(err);
   }
   cachedMetricsUpdateInProgress = false;
@@ -155,7 +156,7 @@ async function cachedMetricsUpdatePing() {
   // prod active value 1000
   // debug active value 10000 (do not kill testnet node)
   const delay = cachedMetricsIsSubActive ? 10000 : 60000;
-  cachedMetricsTimeout = setTimeout(async ()=>{
+  cachedMetricsTimeout = setTimeout(async () => {
     // extra check needed
     if (!isAlive) return;
     cachedMetricsTimeout = null;
@@ -165,10 +166,10 @@ async function cachedMetricsUpdatePing() {
   }, delay);
 }
 
-(async function(){
+(async function () {
   await cachedMetricsUpdate();
   cachedMetricsUpdatePing();
-})()
+})();
 
 ipcMain.on("metricsSub", async () => {
   cachedMetricsIsSubActive = true;
@@ -177,7 +178,6 @@ ipcMain.on("metricsSub", async () => {
 ipcMain.on("metricsUnsub", async () => {
   cachedMetricsIsSubActive = false;
 });
-
 
 ipcMain.on("open-url", async (_event, arg) => {
   shell.openExternal(arg);

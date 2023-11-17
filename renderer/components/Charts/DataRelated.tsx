@@ -1,16 +1,11 @@
 import { BottomArrow, TopArrow } from "./Arrows";
+import { useDataPacked, useStorageAvailable, useWeaveSize } from "../../store/metricsSliceHooks";
 
-interface DataRelatedChartProps {
-  dataPacked: number | null;
-  storageAvailable: number | null;
-  weaveSize: number | null;
-}
+export default function DataRelatedChart() {
+  const dataPacked = useDataPacked();
+  const storageAvailable = useStorageAvailable();
+  const weaveSize = useWeaveSize();
 
-export default function DataRelatedChart({
-  dataPacked,
-  storageAvailable,
-  weaveSize,
-}: DataRelatedChartProps) {
   // NOTE maybe this component should pick all stuff from storage directly
   return (
     <div className="w-96 h-20 flex items-center mt-20">
@@ -20,7 +15,7 @@ export default function DataRelatedChart({
           width: "2%",
         }}
       >
-        <TopArrow value={dataPacked} color="#7BF05E" />
+        {typeof dataPacked === "number" && <TopArrow value={dataPacked} color="#7BF05E" />}
       </div>
 
       <div
@@ -29,11 +24,13 @@ export default function DataRelatedChart({
           width: "4%",
         }}
       >
-        <BottomArrow value={storageAvailable} color="#1D2988" />
+        {typeof storageAvailable === "number" && (
+          <BottomArrow value={storageAvailable} color="#1D2988" />
+        )}
       </div>
 
       <div className="w-full bg-[#A7A7A7] hover:bg-[#989797] h-full cursor-pointer relative group">
-        <TopArrow value={weaveSize} color="#A7A7A7" />
+        {typeof weaveSize === "number" && <TopArrow value={weaveSize} color="#A7A7A7" />}
       </div>
     </div>
   );

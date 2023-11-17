@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import ScrollSpy from "react-ui-scrollspy";
+import { useEarnings, useHashRate } from "../store/metricsSliceHooks";
 import DataRelatedChart from "../components/Charts/DataRelated";
 import { MainLayout } from "../layouts";
-import { setMetricsState, selectMinorState } from "../store/minorSlice";
-import { Metrics } from "../../types/metrics";
+import { setMetricsState } from "../store/metricsSlice";
+import { SetMetricsStateActionPayload } from "../../types/metrics";
 
 interface MenuItems {
   label: string;
@@ -16,44 +17,33 @@ interface SubMenuItems {
   target: string;
 }
 
+const menuItems: MenuItems[] = [
+  {
+    label: "Core",
+    target: "section-1",
+    subMenuItems: [
+      { label: "Data Related", target: "sub-section-1-1" },
+      { label: "Hash Rate", target: "sub-section-1-2" },
+      { label: "Earnings", target: "sub-section-1-3" },
+    ],
+  },
+  {
+    label: "Advanced",
+    target: "section-2",
+    subMenuItems: [
+      { label: "Performance", target: "sub-section-2-1" },
+      { label: "Debug", target: "sub-section-2-2" },
+      { label: "Raw Logs", target: "sub-section-2-3" },
+    ],
+  },
+];
+
 export default function DashboardPage() {
-  // NOTE maybe later we should rename this store
-  const minorState = useSelector(selectMinorState);
   const dispatch = useDispatch();
+  const hashRate = useHashRate();
+  const earnings = useEarnings();
 
   const [activeMenu, setActiveMenu] = useState<string>();
-
-  const menuItems: MenuItems[] = [
-    {
-      label: "Core",
-      target: "section-1",
-      subMenuItems: [
-        { label: "Data Related", target: "sub-section-1-1" },
-        { label: "Hash Rate", target: "sub-section-1-2" },
-        { label: "Earnings", target: "sub-section-1-3" },
-      ],
-    },
-    {
-      label: "Advanced",
-      target: "section-2",
-      subMenuItems: [
-        { label: "Performance", target: "sub-section-2-1" },
-        { label: "Debug", target: "sub-section-2-2" },
-        { label: "Raw Logs", target: "sub-section-2-3" },
-      ],
-    },
-  ];
-
-  useEffect(() => {
-    const handler = (_event: unknown, data: Metrics) => {
-      console.log("DEBUG: requestMetrics", data);
-      dispatch(setMetricsState(data));
-    };
-    window.ipc.metricsSub(handler);
-    return () => {
-      window.ipc.metricsUnsub(handler);
-    };
-  }, [dispatch]);
 
   const handleMenuClick = useCallback(
     (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
@@ -75,9 +65,27 @@ export default function DashboardPage() {
     [setActiveMenu],
   );
 
-  const handleScrollUpdate = (target: string) => {
-    setActiveMenu(target);
-  };
+  const handleScrollUpdate = useCallback(
+    (target: string) => {
+      setActiveMenu(target);
+    },
+    [setActiveMenu],
+  );
+
+  const handler = useCallback(
+    (_event: unknown, data: SetMetricsStateActionPayload) => {
+      console.log("DEBUG: requestMetrics", data);
+      dispatch(setMetricsState(data));
+    },
+    [dispatch, setMetricsState],
+  );
+
+  useEffect(() => {
+    window.ipc.metricsSub(handler);
+    return () => {
+      window.ipc.metricsUnsub(handler);
+    };
+  }, [handler]);
 
   return (
     <MainLayout>
@@ -129,19 +137,19 @@ export default function DashboardPage() {
               <div className="space-y-4">
                 <div id="sub-section-1-1" className="bg-gray-100 p-4 rounded-lg h-64">
                   <h3 className="text-lg font-medium mb-2">Data Related</h3>
-                  <DataRelatedChart
-                    dataPacked={minorState.dataPacked}
-                    storageAvailable={minorState.storageAvailable}
-                    weaveSize={minorState.weaveSize}
-                  />
+                  <DataRelatedChart />
                 </div>
                 <div id="sub-section-1-2" className="bg-gray-100 p-4 rounded-lg h-64">
                   <h3 className="text-lg font-medium mb-2">Hash Rate</h3>
-                  <p className="text-gray-700">Hash rate: {minorState.hashRate}</p>
+                  {typeof hashRate === "number" && (
+                    <p className="text-gray-700">Hash rate: {hashRate}</p>
+                  )}
                 </div>
                 <div id="sub-section-1-3" className="bg-gray-100 p-4 rounded-lg h-64">
                   <h3 className="text-lg font-medium mb-2">Earnings</h3>
-                  <p className="text-gray-700">Earnings: {minorState.earnings}</p>
+                  {typeof earnings === "number" && (
+                    <p className="text-gray-700">Earnings: {earnings}</p>
+                  )}
                 </div>
               </div>
             </section>

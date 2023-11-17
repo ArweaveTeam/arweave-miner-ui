@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from "electron";
-import { Metrics } from "../types/metrics";
+import { SetMetricsStateActionPayload } from "../types/metrics";
 
 ipcRenderer.on("metricsPush", (_event, msg) => {
   console.log("DEBUG metricsPush FE", msg);
@@ -8,12 +8,12 @@ const handler = {
   send(channel: string, value: unknown) {
     ipcRenderer.send(channel, value);
   },
-  metricsSub: (handler: (_event: unknown, res: Metrics) => void) => {
+  metricsSub: (handler: (_event: unknown, res: SetMetricsStateActionPayload) => void) => {
     console.log("DEBUG metricsSub FE");
     ipcRenderer.on("metricsPush", handler);
     ipcRenderer.send("metricsSub", {});
   },
-  metricsUnsub: (handler: (_event: unknown, res: Metrics) => void) => {
+  metricsUnsub: (handler: (_event: unknown, res: SetMetricsStateActionPayload) => void) => {
     console.log("DEBUG metricsUnsub FE");
     ipcRenderer.off("metricsPush", handler);
     ipcRenderer.send("metricsUnsub", {});
