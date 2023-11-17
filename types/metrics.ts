@@ -1,9 +1,9 @@
-export type Metrics = {
-  dataUnpacked: number;
-  dataPacked: number;
-  storageAvailable: number;
-  weaveSize: number;
-  hashRate: number;
-  earnings: number;
-  vdfTimeLowerBound: number;
+export interface SetMetricsStateActionPayload {
+  dataUnpacked: number | null;
+  dataPacked: number | null;
+  storageAvailable: number | null;
+  weaveSize: number | null;
+  hashRate: number | null;
+  earnings: number | null;
+  vdfTimeLowerBound: number | null;
 }

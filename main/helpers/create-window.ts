@@ -15,11 +15,14 @@ export const createWindow = (
   const key = "window-state";
   const name = `window-state-${windowName}`;
   const store = new Store<Rectangle>({ name });
-  const defaultSize = {
-    width: options.width,
-    height: options.height,
+  const defaultSize: Rectangle = {
+    width: options.width || 800,
+    height: options.height || 600,
+    x: 0,
+    y: 0,
   };
-  let state = {};
+
+  let state: Rectangle = { x: 0, y: 0, width: 0, height: 0 };
 
   const restore = () => store.get(key, defaultSize);
 
@@ -34,7 +37,7 @@ export const createWindow = (
     };
   };
 
-  const windowWithinBounds = (windowState, bounds) => {
+  const windowWithinBounds = (windowState: Rectangle, bounds: Rectangle) => {
     return (
       windowState.x >= bounds.x &&
       windowState.y >= bounds.y &&
@@ -51,7 +54,7 @@ export const createWindow = (
     });
   };
 
-  const ensureVisibleOnSomeDisplay = (windowState) => {
+  const ensureVisibleOnSomeDisplay = (windowState: Rectangle) => {
     const visible = screen.getAllDisplays().some((display) => {
       return windowWithinBounds(windowState, display.bounds);
     });

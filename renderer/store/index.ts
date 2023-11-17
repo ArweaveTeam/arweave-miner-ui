@@ -1,11 +1,11 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import { createWrapper } from "next-redux-wrapper";
-import { minorSlice } from "./minorSlice";
+import { metricsSlice } from "./metricsSlice";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      [minorSlice.name]: minorSlice.reducer,
+      [metricsSlice.name]: metricsSlice.reducer,
     },
     devTools: true,
   });
