@@ -2,10 +2,10 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import ScrollSpy from "react-ui-scrollspy";
 import { useEarnings, useHashRate } from "../store/metricsSliceHooks";
-import DataRelatedChart from "../components/Charts/DataRelated";
 import { MainLayout } from "../layouts";
 import { setMetricsState } from "../store/metricsSlice";
 import { SetMetricsStateActionPayload } from "../../types/metrics";
+import DataRelated from "../components/DataRelated";
 
 interface MenuItems {
   label: string;
@@ -126,7 +126,7 @@ export default function DashboardPage() {
           </nav>
         </div>
 
-        <div className="md:w-3/4 px-4 border-l border-gray-300 pt-8">
+        <div className="w-full px-4 border-l border-gray-300 pt-8">
           <ScrollSpy
             useBoxMethod={true}
             activeClass={"active-scrollspy-menu"}
@@ -134,11 +134,9 @@ export default function DashboardPage() {
           >
             <section id="section-1" className="mb-8">
               <h2 className="text-2xl font-bold mb-4">Core</h2>
+
               <div className="space-y-4">
-                <div id="sub-section-1-1" className="bg-gray-100 p-4 rounded-lg h-64">
-                  <h3 className="text-lg font-medium mb-2">Data Related</h3>
-                  <DataRelatedChart />
-                </div>
+                <DataRelated />
                 <div id="sub-section-1-2" className="bg-gray-100 p-4 rounded-lg h-64">
                   <h3 className="text-lg font-medium mb-2">Hash Rate</h3>
                   {typeof hashRate === "number" && (
