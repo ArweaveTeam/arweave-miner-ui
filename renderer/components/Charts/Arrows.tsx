@@ -1,5 +1,5 @@
 import React from "react";
-import filesize from "filesize/dist/filesize.esm.js";
+import { filesize } from "filesize/dist/filesize.esm.js";
 
 interface ArrowProps {
   value: number | null;
