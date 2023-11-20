@@ -18,7 +18,6 @@ let mainWindow: BrowserWindow;
 
 (async () => {
   await app.whenReady();
-
   mainWindow = createWindow("main", {
     width: 1000,
     height: 600,
