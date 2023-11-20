@@ -51,13 +51,12 @@ export const metricsSlice = createSlice({
     },
   },
 
-  extraReducers: {
-    [HYDRATE]: (state, action) => {
+  extraReducers: (builder) => {
+    builder.addCase(HYDRATE, (state) => {
       return {
         ...state,
-        ...action.payload,
       };
-    },
+    });
   },
 });
 
