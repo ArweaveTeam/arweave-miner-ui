@@ -1,10 +1,5 @@
 import React from "react";
-let filesize: any;
-import("filesize")
-  .then((module) => {
-    filesize = module.filesize;
-  })
-  .catch((err) => console.error("Failed to load the module", err));
+import filesize from "filesize/dist/filesize.esm.js";
 
 interface ArrowProps {
   value: number | null;
