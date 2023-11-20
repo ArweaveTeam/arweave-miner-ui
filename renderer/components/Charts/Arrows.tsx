@@ -1,5 +1,10 @@
 import React from "react";
-const { filesize } = require("filesize");
+let filesize: any;
+import("filesize")
+  .then((module) => {
+    filesize = module.filesize;
+  })
+  .catch((err) => console.error("Failed to load the module", err));
 
 interface ArrowProps {
   value: number | null;
