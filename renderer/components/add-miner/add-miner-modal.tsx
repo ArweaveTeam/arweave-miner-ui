@@ -1,5 +1,18 @@
 import React from "react";
 
+interface AddMinerModalProps {
+  nameValue: string;
+  hostnameValue: string;
+  portValue: number;
+  protocolValue: string;
+  onClose: () => void;
+  onAddMiner: () => void;
+  onNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onHostnameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onPortChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onProtocolChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
 export function AddMinerModal({
   nameValue,
   hostnameValue,
@@ -11,18 +24,7 @@ export function AddMinerModal({
   onHostnameChange,
   onPortChange,
   onProtocolChange,
-}: {
-  nameValue: string;
-  hostnameValue: string;
-  portValue: number;
-  protocolValue: string;
-  onClose: () => void;
-  onAddMiner: () => void;
-  onNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onHostnameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onPortChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onProtocolChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}) {
+}: AddMinerModalProps) {
   return (
     <div
       className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full"
