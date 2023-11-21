@@ -1,8 +1,8 @@
 import React from "react";
-import { MainLayout } from "../layouts";
+import { MainLayout } from "../layouts/MainLayout";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
-import { selectMinorState } from "../store/metricsSlice";
+import { selectMinorState } from "../store/metricsSlice/metricsSlice";
 
 export default function HomePage() {
   const router = useRouter();

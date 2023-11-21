@@ -1,4 +1,5 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from "electron";
+import { configHandler } from "./config";
 import { SetMetricsStateActionPayload } from "../types/metrics";
 
 ipcRenderer.on("metricsPush", (_event, msg) => {
@@ -26,6 +27,7 @@ const handler = {
       ipcRenderer.removeListener(channel, subscription);
     };
   },
+  ...configHandler,
 };
 
 contextBridge.exposeInMainWorld("ipc", handler);

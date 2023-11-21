@@ -1,5 +1,9 @@
 import { BottomArrow, TopArrow } from "./Arrows";
-import { useDataPacked, useStorageAvailable, useWeaveSize } from "../../store/metricsSliceHooks";
+import {
+  useDataPacked,
+  useStorageAvailable,
+  useWeaveSize,
+} from "../../store/metricsSlice/metricsSliceHooks";
 
 export default function DataRelatedChart() {
   const { dataPacked } = useDataPacked();

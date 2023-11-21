@@ -6,7 +6,7 @@ import {
   selectDataUnpacked,
   selectStorageAvailable,
   selectWeaveSize,
-} from "./selectors";
+} from "./metricsSliceSelectors";
 
 export const useHashRate = () => {
   return useSelector(selectHashRate, (prev, current) => {
