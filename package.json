@@ -38,6 +38,7 @@
     "arweave": "^1.14.4",
     "electron-serve": "^1.2.0",
     "electron-store": "^8.1.0",
+    "filesize": "^10.1.0",
     "next-redux-wrapper": "^8.1.0",
     "parse-prometheus-text-format": "^1.1.1",
     "ramda": "^0.29.1",

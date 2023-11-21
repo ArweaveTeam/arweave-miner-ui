@@ -1,18 +1,19 @@
 import { BottomArrow, TopArrow } from "./Arrows";
-import {
-  useDataPacked,
-  useStorageAvailable,
-  useWeaveSize,
-} from "../../store/metricsSlice/metricsSliceHooks";
 
-export default function DataRelatedChart() {
-  const { dataPacked } = useDataPacked();
-  const { storageAvailable } = useStorageAvailable();
-  const { weaveSize } = useWeaveSize();
+interface DataRelatedChartProps {
+  weaveSize: number;
+  storageAvailable: number;
+  dataPacked: number;
+}
 
+export default function DataRelatedChart({
+  weaveSize,
+  storageAvailable,
+  dataPacked,
+}: DataRelatedChartProps) {
   // NOTE maybe this component should pick all stuff from storage directly
   return (
-    <div className="w-96 h-20 flex items-center mt-20">
+    <div className="w-full h-16 flex items-center mt-20">
       <div
         className="bg-[#7BF05E] hover:bg-[#6ad050] h-full cursor-pointer relative group"
         style={{
