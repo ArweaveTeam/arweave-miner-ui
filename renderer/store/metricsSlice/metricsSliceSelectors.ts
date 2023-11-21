@@ -1,4 +1,4 @@
-import { AppState } from "./index";
+import { AppState } from "../index";
 
 export const selectHashRate = (state: AppState) => ({
   hashRate: state.metrics.hashRate,

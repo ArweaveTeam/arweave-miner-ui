@@ -1,8 +1,12 @@
+import React from "react";
+import { filesize } from "filesize/dist/filesize.esm.js";
 import DataRelatedChart from "./Charts/DataRelated";
 import { ASSET } from "./Asset";
-import { useDataPacked, useStorageAvailable, useWeaveSize } from "../store/metricsSliceHooks";
-import { filesize } from "filesize/dist/filesize.esm.js";
-import React from "react";
+import {
+  useDataPacked,
+  useStorageAvailable,
+  useWeaveSize,
+} from "../store/metricsSlice/metricsSliceHooks";
 
 export default function DataRelated() {
   const { dataPacked } = useDataPacked();

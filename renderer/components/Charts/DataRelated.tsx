@@ -1,12 +1,16 @@
 import { BottomArrow, TopArrow } from "./Arrows";
 
-interface Props {
+interface DataRelatedChartProps {
   weaveSize: number;
   storageAvailable: number;
   dataPacked: number;
 }
 
-export default function DataRelatedChart({ weaveSize, storageAvailable, dataPacked }: Props) {
+export default function DataRelatedChart({
+  weaveSize,
+  storageAvailable,
+  dataPacked,
+}: DataRelatedChartProps) {
   // NOTE maybe this component should pick all stuff from storage directly
   return (
     <div className="w-full h-16 flex items-center mt-20">

@@ -1,9 +1,13 @@
 import { AppProps } from "next/app";
-import "../styles/globals.css";
+import { Provider } from "react-redux";
 import { wrapper } from "../store";
+import "../styles/globals.css";
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+export default function ArweaveMinerUi({ Component, ...rest }: AppProps) {
+  const { store, props } = wrapper.useWrappedStore(rest);
+  return (
+    <Provider store={store}>
+      <Component {...props.pageProps} />
+    </Provider>
+  );
 }
-
-export default wrapper.withRedux(MyApp);

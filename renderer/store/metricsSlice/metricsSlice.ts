@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
-import { SetMetricsStateActionPayload } from "../../types/metrics";
-import { AppState } from "./index";
+import { SetMetricsStateActionPayload } from "../../../types/metrics";
+import { AppState } from "../index";
 
 // Type for our state
 export interface MetricsSliceReducerState {
@@ -51,13 +51,12 @@ export const metricsSlice = createSlice({
     },
   },
 
-  extraReducers: {
-    [HYDRATE]: (state, action) => {
+  extraReducers: (builder) => {
+    builder.addCase(HYDRATE, (state) => {
       return {
         ...state,
-        ...action.payload,
       };
-    },
+    });
   },
 });
 

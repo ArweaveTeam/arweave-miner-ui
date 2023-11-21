@@ -1,7 +1,12 @@
+import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import WalletButton from "./WalletButton";
+import { useAppDispatch } from "../store";
+import { AddMiner } from "./add-miner/add-miner";
 import { ASSET } from "./Asset";
+import { getNodes } from "../store/configSlice/configSlice";
+import { useConfigNodes } from "../store/configSlice/configSliceHooks";
+import { useEffect } from "react";
 
 interface NavLink {
   href: string;
@@ -11,6 +16,14 @@ interface NavLink {
 
 export default function Navbar() {
   const router = useRouter();
+  const dispatch = useAppDispatch();
+  const nodes = useConfigNodes();
+
+  useEffect(() => {
+    dispatch(getNodes());
+  }, [dispatch]);
+
+  console.log({ nodes });
 
   const links: NavLink[] = [
     {
@@ -67,8 +80,7 @@ export default function Navbar() {
           </Link>
 
           <div className="flex md:order-2 gap-2">
-            <WalletButton />
-
+            <AddMiner withButton />
             <button
               type="button"
               className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm rounded-lg md:hidden text-gray-950 border border-gray-950 hover:bg-gray-950 hover:text-white"

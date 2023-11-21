@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import ScrollSpy from "react-ui-scrollspy";
-import { useEarnings, useHashRate } from "../store/metricsSliceHooks";
-import { MainLayout } from "../layouts";
-import { setMetricsState } from "../store/metricsSlice";
+import { MainLayout } from "../layouts/MainLayout";
+import { useEarnings, useHashRate } from "../store/metricsSlice/metricsSliceHooks";
+import { setMetricsState } from "../store/metricsSlice/metricsSlice";
 import { SetMetricsStateActionPayload } from "../../types/metrics";
 import DataRelated from "../components/DataRelated";
 

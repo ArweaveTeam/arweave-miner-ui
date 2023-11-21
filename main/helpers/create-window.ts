@@ -79,8 +79,10 @@ export const createWindow = (
     ...state,
     ...options,
     webPreferences: {
-      nodeIntegration: false,
+      nodeIntegration: true,
+      nodeIntegrationInWorker: true,
       contextIsolation: true,
+      sandbox: false,
       ...options.webPreferences,
     },
   });

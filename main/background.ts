@@ -18,6 +18,14 @@ let mainWindow: BrowserWindow;
 
 (async () => {
   await app.whenReady();
+  // session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+  //   callback({
+  //     responseHeaders: {
+  //       ...details.responseHeaders,
+  //       "Content-Security-Policy": ["script-src 'self' localhost:8888"],
+  //     },
+  //   });
+  // });
 
   mainWindow = createWindow("main", {
     width: 1000,
