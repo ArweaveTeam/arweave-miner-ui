@@ -1,14 +1,5 @@
 {
   "extends": "../tsconfig.json",
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ],
-  "compilerOptions": {
-    "module": "esnext"
-  }
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "../types"],
+  "exclude": ["node_modules"]
 }
