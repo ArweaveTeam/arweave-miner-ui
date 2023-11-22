@@ -64,7 +64,9 @@ export default function DataRelated() {
                   {calculateSize(dataPacked)}
                 </span>
                 <span className="w-full h-full flex items-center justify-center border-l border-dashed border-black text-xl">
-                  ~ 2%
+                  {dataPacked != null && weaveSize != null
+                    ? `~ ${((dataPacked / weaveSize) * 100).toFixed(2)}%`
+                    : "?"}
                 </span>
               </div>
 
@@ -88,7 +90,9 @@ export default function DataRelated() {
                   {calculateSize(storageAvailable)}
                 </span>
                 <span className="w-full h-full flex items-center justify-center border-l border-dashed border-black text-xl">
-                  ~ 4%
+                  {storageAvailable != null && weaveSize != null
+                    ? `~ ${((storageAvailable / weaveSize) * 100).toFixed(2)}%`
+                    : "?"}
                 </span>
               </div>
 
@@ -97,7 +101,7 @@ export default function DataRelated() {
                   {calculateSize(weaveSize)}
                 </span>
                 <span className="w-full h-full flex items-center justify-center border-l border-dashed border-black text-xl">
-                  ~ 4%
+                  100%
                 </span>
               </div>
             </div>
