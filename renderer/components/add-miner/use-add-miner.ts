@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { appendNode } from "../../store/configSlice/configSlice";
-import { ArweaveNodeConfig } from "../../../types/config";
+import { NewArweaveNodeConfig } from "../../../types/config";
 
 export const useAddMiner = () => {
   const dispatch = useDispatch();
@@ -11,7 +11,7 @@ export const useAddMiner = () => {
   const [newMinerPort, setNewMinerPort] = useState(1984);
   const [newMinerProtocol, setNewMinerProtocol] = useState("http");
 
-  const newMinerData: ArweaveNodeConfig = {
+  const newMinerData: NewArweaveNodeConfig = {
     name: newMinerName,
     host: newMinerHost,
     port: newMinerPort,

@@ -1,5 +1,8 @@
 import Store from "electron-store";
-import { ArweaveMinerUiConfig, ArweaveNodeConfig } from "../types/config";
+import { v4 as uuidv4 } from "uuid";
+import { ArweaveMinerUiConfig, ArweaveNodeConfig, NewArweaveNodeConfig } from "../types/config";
+
+export let selectedNode: ArweaveNodeConfig | undefined;
 
 const schema = {
   nodes: {
@@ -7,6 +10,9 @@ const schema = {
     items: {
       type: "object" as const,
       properties: {
+        id: {
+          type: "string" as const,
+        },
         name: {
           type: "string" as const,
         },
@@ -29,12 +35,21 @@ const store = new Store<ArweaveMinerUiConfig>({ schema });
 
 export const configHandler = {
   configGetNodes: () => {
-    console.log(store);
     return store.get("nodes") || [];
   },
-  configAppendNode: (node: ArweaveNodeConfig) => {
+  configAppendNode: (node: NewArweaveNodeConfig): ArweaveNodeConfig => {
+    const newUuid = uuidv4();
+    const newNode: ArweaveNodeConfig = { id: newUuid, ...node };
     const currentNodes = store.get("nodes", []);
-    const newNodes = [...currentNodes, node];
+    const newNodes = [...currentNodes, newNode];
     store.set("nodes", newNodes);
+    return newNode;
+  },
+  setSelectedNodeById: (id: string) => {
+    const currentNodes = store.get("nodes", []);
+    const node = currentNodes.find((node) => node.id === id);
+    if (node) {
+      selectedNode = node;
+    }
   },
 };
