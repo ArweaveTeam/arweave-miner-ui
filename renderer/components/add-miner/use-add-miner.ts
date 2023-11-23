@@ -21,7 +21,19 @@ export const useAddMiner = () => {
   const handleAddMiner = useCallback(() => {
     dispatch(appendNode(newMinerData));
     setIsModalOpen(false);
-  }, [dispatch, newMinerData, setIsModalOpen]);
+    setNewMinerName("");
+    setNewMinerHost("");
+    setNewMinerPort(1984);
+    setNewMinerProtocol("http");
+  }, [
+    dispatch,
+    newMinerData,
+    setIsModalOpen,
+    setNewMinerName,
+    setNewMinerHost,
+    setNewMinerPort,
+    setNewMinerProtocol,
+  ]);
 
   const handleNewMinerNameChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => setNewMinerName(event.currentTarget.value),
