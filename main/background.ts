@@ -62,7 +62,7 @@ let cachedMetricsStr = "";
 // TODO list of webContents
 // let cachedMetricsSubList = [];
 let cachedMetricsIsSubActive = false;
-let cachedMetricsTimeout: NodeJS.Timeout | null = null;
+let cachedMetricsTimeout: NodeJS.Timeout | undefined;
 let cachedMetricsUpdateInProgress = false;
 // TODO move to config
 const currentNodeId = 0;
@@ -167,7 +167,7 @@ async function cachedMetricsUpdatePing() {
   if (cachedMetricsUpdateInProgress) return;
   if (cachedMetricsTimeout) {
     clearTimeout(cachedMetricsTimeout);
-    cachedMetricsTimeout = null;
+    cachedMetricsTimeout = undefined;
     // extra push fast. Needed on initial subscription
     cachedMetricsPush();
     await cachedMetricsUpdate();
@@ -181,14 +181,14 @@ async function cachedMetricsUpdatePing() {
   cachedMetricsTimeout = setTimeout(async () => {
     // extra check needed
     if (!isAlive) return;
-    cachedMetricsTimeout = null;
+    cachedMetricsTimeout = undefined;
     await cachedMetricsUpdate();
     cachedMetricsPush();
     cachedMetricsUpdatePing();
   }, delay);
 }
 
-config.ev.on("nodes_update", () => {
+config.eventHub.on("nodes_update", () => {
   const node = config.configHandler.configGetNodes()[currentNodeId];
   if (cachedMetrics && JSON.stringify(cachedMetrics.node) !== JSON.stringify(node)) {
     cachedMetrics = null;
