@@ -5,6 +5,7 @@ import parsePrometheusTextFormat from "parse-prometheus-text-format";
 import { createWindow } from "./helpers";
 import { PrometheusMetricParser } from "./types/prometheus";
 import { SetMetricsStateActionPayload } from "../types/metrics";
+import * as config from "./config";
 
 const isProd = process.env.NODE_ENV === "production";
 
@@ -54,6 +55,18 @@ ipcMain.on("message", async (event, arg) => {
   event.reply("message", `${arg} World!`);
 });
 
+// TODO make generic function for creating pub+sub endpoints
+// TODO make class for subscription management
+let cachedMetrics: SetMetricsStateActionPayload | null = null;
+let cachedMetricsStr = "";
+// TODO list of webContents
+// let cachedMetricsSubList = [];
+let cachedMetricsIsSubActive = false;
+let cachedMetricsTimeout: NodeJS.Timeout | undefined;
+let cachedMetricsUpdateInProgress = false;
+// TODO move to config
+const currentNodeId = 0;
+
 function metricStringParse(item: PrometheusMetricParser | undefined): number | null {
   if (!item) return null;
   return +item.metrics[0].value;
@@ -61,7 +74,17 @@ function metricStringParse(item: PrometheusMetricParser | undefined): number | n
 
 async function getMetrics(): Promise<SetMetricsStateActionPayload> {
   console.log("DEBUG: getMetrics start");
-  const res = await fetch("http://testnet-3.arweave.net:1984/metrics");
+  const nodeList = config.configHandler.configGetNodes();
+  // temp for development
+  const node = nodeList[currentNodeId] || {
+    id: "",
+    name: "",
+    host: "testnet-3.arweave.net",
+    port: "1984",
+    protocol: "http",
+  };
+  const url = `${node.protocol}://${node.host}:${node.port}/metrics`;
+  const res = await fetch(url);
   const data = await res.text();
 
   const parsed: PrometheusMetricParser[] = parsePrometheusTextFormat(data) || [];
@@ -118,18 +141,9 @@ async function getMetrics(): Promise<SetMetricsStateActionPayload> {
     hashRate,
     earnings,
     vdfTimeLowerBound,
+    node,
   };
 }
-
-// TODO make generic function for creating pub+sub endpoints
-// TODO make class for subscription management
-let cachedMetrics: SetMetricsStateActionPayload | null = null;
-let cachedMetricsStr = "";
-// TODO list of webContents
-// let cachedMetricsSubList = [];
-let cachedMetricsIsSubActive = false;
-let cachedMetricsTimeout: NodeJS.Timeout | null = null;
-let cachedMetricsUpdateInProgress = false;
 
 async function cachedMetricsUpdate() {
   try {
@@ -153,7 +167,7 @@ async function cachedMetricsUpdatePing() {
   if (cachedMetricsUpdateInProgress) return;
   if (cachedMetricsTimeout) {
     clearTimeout(cachedMetricsTimeout);
-    cachedMetricsTimeout = null;
+    cachedMetricsTimeout = undefined;
     // extra push fast. Needed on initial subscription
     cachedMetricsPush();
     await cachedMetricsUpdate();
@@ -167,15 +181,25 @@ async function cachedMetricsUpdatePing() {
   cachedMetricsTimeout = setTimeout(async () => {
     // extra check needed
     if (!isAlive) return;
-    cachedMetricsTimeout = null;
+    cachedMetricsTimeout = undefined;
     await cachedMetricsUpdate();
     cachedMetricsPush();
     cachedMetricsUpdatePing();
   }, delay);
 }
 
+config.eventHub.on("nodes_update", () => {
+  const node = config.configHandler.configGetNodes()[currentNodeId];
+  if (cachedMetrics && JSON.stringify(cachedMetrics.node) !== JSON.stringify(node)) {
+    cachedMetrics = null;
+    cachedMetricsPush();
+  }
+  cachedMetricsUpdatePing();
+});
+
 (async function () {
   await cachedMetricsUpdate();
+  cachedMetricsPush();
   cachedMetricsUpdatePing();
 })();
 

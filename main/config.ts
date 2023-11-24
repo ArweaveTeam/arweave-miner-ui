@@ -1,7 +1,10 @@
+import { EventEmitter } from "events";
 import Store from "electron-store";
 import { v4 as uuidv4 } from "uuid";
 import { ArweaveMinerUiConfig, ArweaveNodeConfig, NewArweaveNodeConfig } from "../types/config";
 
+export const eventHub = new EventEmitter();
+eventHub.setMaxListeners(Infinity);
 export let selectedNode: ArweaveNodeConfig | undefined;
 
 const schema = {
@@ -43,6 +46,7 @@ export const configHandler = {
     const currentNodes = store.get("nodes", []);
     const newNodes = [...currentNodes, newNode];
     store.set("nodes", newNodes);
+    eventHub.emit("nodes_update", {});
     return newNode;
   },
   setSelectedNodeById: (id: string) => {
