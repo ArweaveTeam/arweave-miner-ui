@@ -3,7 +3,7 @@
 const isHeadless = process.env.AR_MINER_UI_HEADLESS === "true";
 const maybeHeadlessConfig = isHeadless
   ? {
-      output: "standalone",
+      output: "export",
       distDir: "dist-headless",
     }
   : {};
