@@ -9,13 +9,15 @@
   "scripts": {
     "dev": "nextron",
     "build": "nextron build",
+    "build:headless": "cross-env AR_MINER_UI_HEADLESS=true npx next build renderer",
     "postinstall": "electron-builder install-app-deps",
     "check": "npm run check:lint && npm run check:types",
     "check:lint": "npx eslint .",
     "check:types": "npx tsc --noEmit",
     "format:renderer": "prettier --write \"renderer/**/*.{js,jsx,ts,tsx,css}\"",
     "format:main": "prettier --write \"main/**/*.{js,ts}\"",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "serve:headless": "cross-env AR_MINER_UI_HEADLESS=true npx http-server ./renderer/dist-headless -p 3000"
   },
   "husky": {
     "hooks": {
@@ -54,10 +56,12 @@
     "@typescript-eslint/eslint-plugin": "^6.12.0",
     "@typescript-eslint/parser": "^6.12.0",
     "autoprefixer": "^10.4.16",
+    "cross-env": "^7.0.3",
     "electron": "^27.1.0",
     "electron-builder": "^24.6.4",
     "eslint": "^8.54.0",
     "eslint-plugin-react": "^7.33.2",
+    "http-server": "^14.1.1",
     "husky": "^8.0.3",
     "lint-staged": "^15.1.0",
     "next": "^12.3.4",
