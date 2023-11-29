@@ -1,0 +1,7 @@
+2023-11-08T12:55:06.853804+00:00 [warning] ar_header_sync:download_txs/3:556 event: ar_header_sync_block_tx_not_found, block: <<"i3ZhsWOCaHnR_n4hh4afL0EjiwLQs8apeYXF6nef9gs5zZKdyBoYHbEGRH8RcCVV">>
+2023-11-08T12:55:47.318289+00:00 [warning] ar_http_iface_client:get_block_index/4:263 event: failed_to_fetch_block_index_range, error: {error,normal}
+2023-11-08T12:55:47.318417+00:00 [warning] ar_http_iface_client:get_block_index/4:263 event: failed_to_fetch_block_index_range, error: {error,client_error}
+2023-11-08T22:18:28.412232+00:00 [warning] ar_poller_worker:handle_cast/2:103 event: failed_to_get_block_txs_from_peer, block: <<"RGP_Q7vdF1DaB3KjddhpHplg11Ds3pjURRiv3s3AeFygFGxqyYTReWQQvHlWOVEL">>, peer: 100.101.102.103:1984, tx_count: 13
+2023-04-25T20:59:16.445979+00:00 [warning] ar_poller_worker:handle_info/2:162 event: unhandled_info, info: {gun_error,<0.8733.14>,#Ref<0.198410814.799539204.235276>,{closed,"The connection was lost."}}
+2023-04-25T20:30:39.860426+00:00 [warning] ar_block_propagation_worker:handle_info/2:90 event: unhandled_info, module: ar_block_propagation_worker, info: {gun_error,<0.4041.14>,#Ref<0.198410814.817102849.83851>,{closed,"The connection was lost."}}
+2023-01-08T20:25:13.975247+00:00 [warning] /data/arweave/arweave_public_testnet_2.6_7/apps/arweave/src/ar_poller_worker.erl:131 event: failed_to_get_recent_hash_list_diff, peer: 100.101.102.103:1984, reason: {error,timeout}

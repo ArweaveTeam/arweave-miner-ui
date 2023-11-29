@@ -1,0 +1,14 @@
+2023-11-08T12:55:07.141395+00:00 [notice] : alarm_handler: {clear,system_memory_high_watermark}
+2023-11-08T12:55:07.143527+00:00 [notice] : alarm_handler: {clear,{disk_almost_full,"/"}}
+2023-11-08T12:55:07.143669+00:00 [notice] : alarm_handler: {clear,{disk_almost_full,"/data"}}
+2023-11-08T12:55:20.834927+00:00 [notice] application_controller:info_exited/3:2119 Application: arweave. Exited: {{shutdown,{failed_to_start_child,ar_sync_record_sup,{shutdown,{failed_to_start_child,ar_sync_record_default,{badarg,[{io,format,["SyncRecordByID ~p~n",#{ar_chunk_storage => {0,nil},ar_data_sync => {3,{{153963417346294,153963416822006},{{153962920059126,153962919272694},{{153960756060406,153960755798262},nil,nil},nil},nil}}}],[{file,"io.erl"},{line,99},{error_info,#{cause => {device,put_chars},module => erl_stdlib_errors}}]},{ar_sync_record,init,1,[{file,"/data/arweave/arweave_debug_gb_sets/apps/arweave/src/ar_sync_record.erl"},{line,256}]},{gen_server,init_it,2,[{file,"gen_server.erl"},{line,423}]},{gen_server,init_it,6,[{file,"gen_server.erl"},{line,390}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,226}]}]}}}}},{ar,start,[normal,[]]}}. Type: permanent.
+2023-06-12T07:52:40.121555+00:00 [notice] application_controller:info_exited/3:2119 Application: arweave. Exited: stopped. Type: permanent.
+2023-06-12T07:52:40.122000+00:00 [notice] application_controller:info_exited/3:2119 Application: gun. Exited: stopped. Type: permanent.
+2023-06-12T07:52:40.122099+00:00 [notice] application_controller:info_exited/3:2119 Application: cowlib. Exited: stopped. Type: permanent.
+2023-06-12T07:52:40.122495+00:00 [notice] application_controller:info_exited/3:2119 Application: ranch. Exited: stopped. Type: permanent.
+2023-06-12T07:52:40.122842+00:00 [notice] application_controller:info_exited/3:2119 Application: cowboy. Exited: stopped. Type: permanent.
+2023-06-12T07:52:40.123146+00:00 [notice] application_controller:info_exited/3:2119 Application: prometheus. Exited: stopped. Type: permanent.
+2023-06-12T07:52:40.123408+00:00 [notice] application_controller:info_exited/3:2119 Application: prometheus_cowboy. Exited: stopped. Type: permanent.
+2023-06-12T07:52:40.123487+00:00 [notice] application_controller:info_exited/3:2119 Application: prometheus_process_collector. Exited: stopped. Type: permanent.
+2023-06-12T07:52:40.123721+00:00 [notice] application_controller:info_exited/3:2119 Application: prometheus_httpd. Exited: stopped. Type: permanent.
+2023-06-12T07:52:40.123959+00:00 [notice] application_controller:info_exited/3:2119 Application: graphql. Exited: stopped. Type: permanent.

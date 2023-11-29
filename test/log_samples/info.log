@@ -1,0 +1,129 @@
+2023-11-08T12:50:12.092221+00:00 [info] ar_arql_db:init/0:165 ar_arql_db: init, data_dir: /data/_arweave/arweave_debug_testnet
+2023-11-08T12:50:13.096751+00:00 [info] ar_arql_db:create_meta_table/1:375 ar_arql_db: creating_meta_table
+2023-11-08T12:50:13.123548+00:00 [info] ar_arql_db:create_schema/1:389 ar_arql_db: creating_schema
+2023-11-08T12:50:15.284214+00:00 [info] ar_header_sync:init/0:61 event: ar_header_sync_start
+2023-11-08T12:50:15.306563+00:00 [info] ar_data_sync:init/1:564 event: ar_data_sync_start, store_id: storage_module_1099511627776_54_A7-DAO-o_CDL0wILiyGpI6XaVOiBva0ZwHL3vJPu7KM
+2023-11-08T12:50:15.457927+00:00 [info] ar_data_sync:init/1:498 event: ar_data_sync_start, store_id: default
+2023-11-08T12:50:15.897530+00:00 [info] ar_node_worker:validate_trusted_peers/1:198 event: no_valid_trusted_peers
+2023-11-08T12:51:30.453425+00:00 [info] ar_blacklist_middleware:start/0:33 event: ar_blacklist_middleware_start
+2023-11-08T12:51:30.488436+00:00 [info] ar_config:log_config/1:681 =============== Start Config ===============
+2023-11-08T12:51:30.488568+00:00 [info] ar_config:log_config/4:696 init: false
+2023-11-08T12:51:30.488630+00:00 [info] ar_config:log_config/4:696 port: 1984
+2023-11-08T12:51:30.488671+00:00 [info] ar_config:log_config/4:696 mine: false
+2023-11-08T12:51:30.488736+00:00 [info] ar_config:log_config/4:696 peers: ["100.101.102.103:1984","100.101.102.103:1984","100.101.102.103:1984","100.101.102.103:1984","100.101.102.103:1984"]
+2023-11-08T12:51:30.488826+00:00 [info] ar_config:log_config/4:696 block_gossip_peers: []
+2023-11-08T12:51:30.488874+00:00 [info] ar_config:log_config/4:696 local_peers: []
+2023-11-08T12:51:30.488908+00:00 [info] ar_config:log_config/4:696 sync_from_local_peers_only: false
+2023-11-08T12:51:30.488951+00:00 [info] ar_config:log_config/4:696 data_dir: "/data/_arweave/arweave_debug_testnet"
+2023-11-08T12:51:30.488987+00:00 [info] ar_config:log_config/4:696 log_dir: "logs"
+2023-11-08T12:51:30.489032+00:00 [info] ar_config:log_config/4:696 metrics_dir: "metrics"
+2023-11-08T12:51:30.489074+00:00 [info] ar_config:log_config/4:696 polling: 2
+2023-11-08T12:51:30.489110+00:00 [info] ar_config:log_config/4:696 block_pollers: 10
+2023-11-08T12:51:30.489138+00:00 [info] ar_config:log_config/4:696 auto_join: true
+2023-11-08T12:51:30.489165+00:00 [info] ar_config:log_config/4:696 join_workers: 10
+2023-11-08T12:51:30.489191+00:00 [info] ar_config:log_config/4:696 diff: 6
+2023-11-08T12:51:30.489215+00:00 [info] ar_config:log_config/4:696 mining_addr: not_set
+2023-11-08T12:51:30.489245+00:00 [info] ar_config:log_config/4:696 max_miners: 0
+2023-11-08T12:51:30.489272+00:00 [info] ar_config:log_config/4:696 hashing_threads: 23
+2023-11-08T12:51:30.489312+00:00 [info] ar_config:log_config/4:696 mining_server_chunk_cache_size_limit: undefined
+2023-11-08T12:51:30.489351+00:00 [info] ar_config:log_config/4:696 packing_cache_size_limit: undefined
+2023-11-08T12:51:30.489383+00:00 [info] ar_config:log_config/4:696 data_cache_size_limit: undefined
+2023-11-08T12:51:30.489412+00:00 [info] ar_config:log_config/4:696 tx_validators: undefined
+2023-11-08T12:51:30.489440+00:00 [info] ar_config:log_config/4:696 post_tx_timeout: 20
+2023-11-08T12:51:30.489466+00:00 [info] ar_config:log_config/4:696 max_emitters: 16
+2023-11-08T12:51:30.489494+00:00 [info] ar_config:log_config/4:696 tx_propagation_parallelization: undefined
+2023-11-08T12:51:30.489523+00:00 [info] ar_config:log_config/4:696 sync_jobs: 100
+2023-11-08T12:51:30.489549+00:00 [info] ar_config:log_config/4:696 header_sync_jobs: 1
+2023-11-08T12:51:30.489578+00:00 [info] ar_config:log_config/4:696 disk_pool_jobs: 20
+2023-11-08T12:51:30.489605+00:00 [info] ar_config:log_config/4:696 load_key: not_set
+2023-11-08T12:51:30.489630+00:00 [info] ar_config:log_config/4:696 disk_space: undefined
+2023-11-08T12:51:30.489660+00:00 [info] ar_config:log_config/4:696 disk_space_check_frequency: 30000
+2023-11-08T12:51:30.489691+00:00 [info] ar_config:log_config/4:696 storage_modules: [{1099511627776,54,{spora_2_6,<<"A7-DAO-o_CDL0wILiyGpI6XaVOiBva0ZwHL3vJPu7KM">>}}]
+2023-11-08T12:51:30.489747+00:00 [info] ar_config:log_config/4:696 start_from_latest_state: false
+2023-11-08T12:51:30.489775+00:00 [info] ar_config:log_config/4:696 start_from_block: undefined
+2023-11-08T12:51:30.489809+00:00 [info] ar_config:log_config/4:696 internal_api_secret: not_set
+2023-11-08T12:51:30.489838+00:00 [info] ar_config:log_config/4:696 enable: []
+2023-11-08T12:51:30.489864+00:00 [info] ar_config:log_config/4:696 disable: []
+2023-11-08T12:51:30.489892+00:00 [info] ar_config:log_config/4:696 transaction_blacklist_files: []
+2023-11-08T12:51:30.489920+00:00 [info] ar_config:log_config/4:696 transaction_blacklist_urls: []
+2023-11-08T12:51:30.489945+00:00 [info] ar_config:log_config/4:696 transaction_whitelist_files: []
+2023-11-08T12:51:30.489972+00:00 [info] ar_config:log_config/4:696 transaction_whitelist_urls: []
+2023-11-08T12:51:30.489996+00:00 [info] ar_config:log_config/4:696 gateway_domain: not_set
+2023-11-08T12:51:30.490020+00:00 [info] ar_config:log_config/4:696 gateway_custom_domains: []
+2023-11-08T12:51:30.490049+00:00 [info] ar_config:log_config/4:696 requests_per_minute_limit: 900
+2023-11-08T12:51:30.490074+00:00 [info] ar_config:log_config/4:696 requests_per_minute_limit_by_ip: #{}
+2023-11-08T12:51:30.490117+00:00 [info] ar_config:log_config/4:696 max_propagation_peers: 16
+2023-11-08T12:51:30.490150+00:00 [info] ar_config:log_config/4:696 max_block_propagation_peers: 1000
+2023-11-08T12:51:30.490180+00:00 [info] ar_config:log_config/4:696 ipfs_pin: false
+2023-11-08T12:51:30.490205+00:00 [info] ar_config:log_config/4:696 webhooks: []
+2023-11-08T12:51:30.490231+00:00 [info] ar_config:log_config/4:696 max_connections: 1024
+2023-11-08T12:51:30.490258+00:00 [info] ar_config:log_config/4:696 max_gateway_connections: 128
+2023-11-08T12:51:30.490282+00:00 [info] ar_config:log_config/4:696 max_poa_option_depth: 500
+2023-11-08T12:51:30.490307+00:00 [info] ar_config:log_config/4:696 disk_pool_data_root_expiration_time: 1800
+2023-11-08T12:51:30.490347+00:00 [info] ar_config:log_config/4:696 max_disk_pool_buffer_mb: 100000
+2023-11-08T12:51:30.490376+00:00 [info] ar_config:log_config/4:696 max_disk_pool_data_root_buffer_mb: 10000
+2023-11-08T12:51:30.490404+00:00 [info] ar_config:log_config/4:696 randomx_bulk_hashing_iterations: 8
+2023-11-08T12:51:30.490431+00:00 [info] ar_config:log_config/4:696 semaphores: #{arql => 10,gateway_arql => infinity,get_and_pack_chunk => 1,get_block_index => 1,get_chunk => 100,get_sync_record => 10,get_tx_data => 1,get_wallet_list => 1,post_chunk => 100,post_tx => 20}
+2023-11-08T12:51:30.490474+00:00 [info] ar_config:log_config/4:696 disk_cache_size: 5120
+2023-11-08T12:51:30.490502+00:00 [info] ar_config:log_config/4:696 packing_rate: undefined
+2023-11-08T12:51:30.490527+00:00 [info] ar_config:log_config/4:696 max_nonce_limiter_validation_thread_count: 12
+2023-11-08T12:51:30.490559+00:00 [info] ar_config:log_config/4:696 max_nonce_limiter_last_step_validation_thread_count: 23
+2023-11-08T12:51:30.490586+00:00 [info] ar_config:log_config/4:696 nonce_limiter_server_trusted_peers: []
+2023-11-08T12:51:30.490615+00:00 [info] ar_config:log_config/4:696 nonce_limiter_client_peers: []
+2023-11-08T12:51:30.490639+00:00 [info] ar_config:log_config/4:696 debug: true
+2023-11-08T12:51:30.490669+00:00 [info] ar_config:log_config/4:696 repair_rocksdb: []
+2023-11-08T12:51:30.490698+00:00 [info] ar_config:log_config/4:696 run_defragmentation: false
+2023-11-08T12:51:30.490724+00:00 [info] ar_config:log_config/4:696 defragmentation_trigger_threshold: 1500000000
+2023-11-08T12:51:30.490752+00:00 [info] ar_config:log_config/4:696 defragmentation_modules: []
+2023-11-08T12:51:30.490777+00:00 [info] ar_config:log_config/4:696 block_throttle_by_ip_interval: 1000
+2023-11-08T12:51:30.490805+00:00 [info] ar_config:log_config/4:696 block_throttle_by_solution_interval: 2000
+2023-11-08T12:51:30.490830+00:00 [info] ar_config:log_config/4:696 p3: {p3_config,#{},#{}}
+2023-11-08T12:51:30.490859+00:00 [info] ar_config:log_config/4:696 coordinated_mining: false
+2023-11-08T12:51:30.490884+00:00 [info] ar_config:log_config/4:696 cm_api_secret: not_set
+2023-11-08T12:51:30.490909+00:00 [info] ar_config:log_config/4:696 cm_exit_peer: not_set
+2023-11-08T12:51:30.490941+00:00 [info] ar_config:log_config/4:696 cm_peers: []
+2023-11-08T12:51:30.490971+00:00 [info] ar_config:log_config/4:696 cm_poll_interval: 60000
+2023-11-08T12:51:30.490995+00:00 [info] ar_config:log_config/1:683 =============== End Config   ===============
+2023-11-08T12:51:51.431567+00:00 [info] ar_join:get_block_trail_loop/5:284 event: join_remaining_blocks_to_fetch, remaining_blocks_count: 99
+2023-11-08T12:53:30.970209+00:00 [info] ar_storage:store_account_tree_update/3:1254 event: storing_account_tree_update, updated_key_count: 227816, height: 1298154, root_hash: <<"OTziSl3ydYWqe_BMyJ9cjfPJ3zmQqiy9pSH4TU2fPFe8OaBpbmIWS3UzPtCNpt9a">>
+2023-11-08T12:53:35.618151+00:00 [info] ar_node_worker:handle_info/2:353 event: account_tree_initialized, height: 1298203
+2023-11-08T12:53:37.364679+00:00 [info] ar_storage:store_account_tree_update/3:1288 event: stored_account_tree
+2023-11-08T12:53:37.467898+00:00 [info] ar_storage:store_account_tree_update/3:1254 event: storing_account_tree_update, updated_key_count: 14, height: 1298155, root_hash: <<"Ywr5LrZuiuEfcxmqve9u0g-k5qD89WwI9Pyrl9g9yxO1HIFsgwbeyrOYOp41guXi">>
+2023-11-08T12:53:49.063251+00:00 [info] ar_data_sync:repair_data_root_offset_index/2:1970 event: starting_data_root_offset_index_scan
+2023-11-08T12:53:49.086202+00:00 [info] ar_data_sync:repair_data_root_offset_index/2:1975 event: data_root_offset_index_scan_complete
+2023-11-08T12:53:51.195201+00:00 [info] ar_node_worker:handle_info/2:427 event: joined_the_network, block: <<"EGMaU75M754IVtoBWasOb3sC8Dvtpgyg8xvdWjfL3qBHFvTaWfroekWwXt920PnO">>, height: 1298203
+2023-11-08T12:53:51.425164+00:00 [info] ar_poller:handle_cast/2:142 event: fetched_block_for_validation, block: <<"Ig5eXmEdfCik41p21oiQmQvY2ihjShn5rm32a5X3-m-_etPlOenfL36MVPjCqqcx">>, peer: 100.101.102.103:1984
+2023-11-08T12:53:51.463428+00:00 [info] ar_block_pre_validator:handle_cast/2:110 event: processing_block, peer: 100.101.102.103:1984, height: 1298204, step_number: 24074709, block: <<"Ig5eXmEdfCik41p21oiQmQvY2ihjShn5rm32a5X3-m-_etPlOenfL36MVPjCqqcx">>, miner_address: <<"3U--Ahw0fTVDivA_4KHksjHSTC6haciKX_AyGHfrrJg">>, previous_block: <<"EGMaU75M754IVtoBWasOb3sC8Dvtpgyg8xvdWjfL3qBHFvTaWfroekWwXt920PnO">>
+2023-11-08T12:53:51.669325+00:00 [info] ar_block_pre_validator:accept_block/3:803 event: accepted_block, height: 1298204, indep_hash: <<"Ig5eXmEdfCik41p21oiQmQvY2ihjShn5rm32a5X3-m-_etPlOenfL36MVPjCqqcx">>
+2023-11-08T12:53:51.804157+00:00 [info] ar_nonce_limiter:request_validation/3:222 event: vdf_validation_start, block: <<"Ig5eXmEdfCik41p21oiQmQvY2ihjShn5rm32a5X3-m-_etPlOenfL36MVPjCqqcx">>, session_key: <<"EFdu15uUJizlUTDG-ZWMJ974jcpdZG1PyOV_qSbGXGLhN-WWO-_iJ2WDPFRFy7WE">>, next_session_key: <<"EFdu15uUJizlUTDG-ZWMJ974jcpdZG1PyOV_qSbGXGLhN-WWO-_iJ2WDPFRFy7WE">>, prev_step_number: 24074627, step_number: 24074709, start_step_number: 24074627, step_count: 82, steps: 82, session_steps: 9, prev_vdf_difficulty: 664288, vdf_difficulty: 664288, next_vdf_difficulty: 664288, pid: <0.453.0>
+2023-11-08T12:54:01.368164+00:00 [info] ar_node_worker:log_tip/1:1597 event: new_tip_block, indep_hash: <<"Ig5eXmEdfCik41p21oiQmQvY2ihjShn5rm32a5X3-m-_etPlOenfL36MVPjCqqcx">>, height: 1298204
+023-11-08T12:54:01.921376+00:00 [info] ar_nonce_limiter:handle_info/2:626 event: computed_for_outdated_key, step_number: 24074643, output: <<"kkOIbK90-4posIOVMwDaTa1sj58z8vjhDYrljpmI8Uw">>
+2023-11-08T12:54:04.435403+00:00 [info] ar_node_worker:handle_info/2:441 event: vdf_validation_successful, block: <<"9SJ6rZVDhCmB1zl0qypMFfo-L1WYWHfHxS7SvbMAhDq3HL1pbyk39JHnlM3KYzaM">>
+2023-11-08T12:54:04.719167+00:00 [info] ar_node_utils:validate/6:64 event: validating_block, hash: <<"9SJ6rZVDhCmB1zl0qypMFfo-L1WYWHfHxS7SvbMAhDq3HL1pbyk39JHnlM3KYzaM">>
+2023-11-08T12:54:04.735841+00:00 [info] ar_node_utils:validate/6:71 event: block_validation_successful, hash: <<"9SJ6rZVDhCmB1zl0qypMFfo-L1WYWHfHxS7SvbMAhDq3HL1pbyk39JHnlM3KYzaM">>, time_taken_us: 16464
+2023-11-08T12:55:06.623010+00:00 [info] ar_node_worker:terminate/2:816 event: ar_node_worker_terminated, reason: shutdown
+2023-11-08T12:55:06.624997+00:00 [info] ar_wallets:terminate/2:201 event: ar_wallets_terminated, reason: shutdown
+2023-11-08T12:55:06.630658+00:00 [info] ar_global_sync_record:terminate/2:156 event: terminate, reason: shutdown
+2023-11-08T12:55:06.630795+00:00 [info] ar_data_sync:terminate/2:1361 event: terminate, reason: shutdown
+2023-11-08T12:55:06.639040+00:00 [info] ar_data_sync_worker_master:terminate/2:138 event: terminate, reason: shutdown
+2023-11-08T12:55:06.639155+00:00 [info] ar_data_sync_worker:terminate/2:77 event: terminate, reason: shutdown
+2023-11-08T12:55:06.681089+00:00 [info] ar_header_sync:terminate/2:338 event: ar_header_sync_terminate, reason: shutdown
+2023-11-08T12:55:06.681374+00:00 [info] ar_sync_record:terminate/2:392 event: terminate, reason: shutdown
+2023-11-08T12:55:06.724520+00:00 [info] ar_bridge:terminate/2:172 event: ar_bridge_terminated, module: ar_bridge
+2023-11-08T12:55:06.724633+00:00 [info] ar_tx_blacklist:terminate/2:311 event: terminate, module: ar_tx_blacklist, reason: shutdown
+2023-11-08T12:55:06.853484+00:00 [info] ar_http:terminate/2:246 event: http_client_terminating, reason: shutdown
+2023-11-08T12:55:18.399343+00:00 [info] ar_peers:load_peers/0:507 event: polling_saved_peers
+2023-11-08T12:55:18.772677+00:00 [info] ar_peers:load_peers/0:512 event: polled_saved_peers
+2023-11-08T21:42:20.174991+00:00 [info] ar_node_worker:handle_task/2:927 event: current_mining_difficulty, difficulty: 115792089171527669329357224913282175934415968783156635362569663153144868954043
+2023-06-12T07:52:17.214638+00:00 [info] ar_mining_server:start_io_thread/4:541 event: started_io_mining_thread, partition_number: 0, mining_addr: <<"lCvc0gdjWvo0oBbs2EVgehWWTdY3mhcv5lHParV5re8">>, store_id: storage_module_20971520_0_lCvc0gdjWvo0oBbs2EVgehWWTdY3mhcv5lHParV5re8
+2023-06-12T07:52:17.246537+00:00 [info] ar_chunk_storage:repack/4:713 event: repacking_complete, target_packing: spora_2_6_lCvc0gdjWvo0oBbs2EVgehWWTdY3mhcv5lHParV5re8
+2023-06-12T07:52:25.245865+00:00 [info] ar_mining_server:log_chunk_cache_size_limit/1:653 event: setting_chunk_cache_size_limit, limit: 4
+2023-06-12T07:52:26.282693+00:00 [info] ar_mining_server:prepare_solution/8:1373 event: found_mining_solution, partition: 0, step_number: 16, mining_address: <<"lCvc0gdjWvo0oBbs2EVgehWWTdY3mhcv5lHParV5re8">>, recall_byte1: 531207, recall_byte2: undefined, solution_h: <<"sEDNDCu4jnDIf9o7gsIVJD4_6m5J0-c6AyhKCfCD3_U">>, nonce_limiter_output: <<"DtpVmmyBXOs6J5NP5F6c8Zu_BVGjg8sO0ABrTpCHq18">>
+2023-06-12T07:52:26.307120+00:00 [info] ar_node_worker:handle_info/2:497 event: mined_block, indep_hash: <<"-SELaIsA9FuvFG14tFR7Cf5IlV7vxkf2flxSRhsCms5WerMdkEFE111zabtH-sy3">>, txs: 0
+2023-06-12T07:52:26.307143+00:00 [info] ar_watchdog:handle_cast/2:125 event: mined_block, block: <<"-SELaIsA9FuvFG14tFR7Cf5IlV7vxkf2flxSRhsCms5WerMdkEFE111zabtH-sy3">>, height: 1, previous_block: <<"wL1hYZixtEj2EfnjW1SAabMtivEX3VY9bbNRacMmjuDy5QdMl2YeMr66iG0iHxNR">>
+2023-06-12T07:52:26.307548+00:00 [info] ar_node_worker:log_applied_block/1:1450 event: applied_block, indep_hash: <<"-SELaIsA9FuvFG14tFR7Cf5IlV7vxkf2flxSRhsCms5WerMdkEFE111zabtH-sy3">>, height: 1
+
+
+
+
+
