@@ -34,6 +34,10 @@ export default function Navbar() {
       label: "Dashboard",
     },
     {
+      href: "/monitor",
+      label: "Monitor",
+    },
+    {
       href: "/learn",
       label: "Learn",
     },
