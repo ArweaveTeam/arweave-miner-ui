@@ -3,7 +3,7 @@
   "name": "@arweave/miner-ui",
   "license": "MIT",
   "description": "Monitoring and management UI for Arweave miners",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha",
   "author": "ArweaveTeam <team@arweave.org>",
   "main": "app/background.js",
   "scripts": {
