@@ -35,7 +35,7 @@ module.exports = {
   },
   plugins: ["@typescript-eslint", "react"],
   rules: {
-    "linebreak-style": ["error", "unix"],
+    "linebreak-style": ["error", (process.platform === "win32" ? "windows" : "unix")],
     "react/no-unknown-property": ["off"],
     "react/react-in-jsx-scope": ["off"],
   },
