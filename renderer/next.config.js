@@ -6,7 +6,7 @@ const maybeHeadlessConfig = isHeadless
       output: "export",
       distDir: "dist-headless",
     }
-  : {};
+  : { output: "export", distDir: process.env.NEXTRON_OUTPUT || "dist" };
 
 module.exports = {
   trailingSlash: true,
