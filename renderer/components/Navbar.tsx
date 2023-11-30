@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import isElectron from "is-electron";
 import { useAppDispatch } from "../store";
 import { AddMiner } from "./add-miner/add-miner";
 import { SelectMinerDropdown } from "./select-miner/select-miner-dropdown";
@@ -54,20 +55,21 @@ export default function Navbar() {
 
   const NavLink = ({ href, label, target }: NavLink) => {
     return (
-      <Link href={href} passHref>
-        <a
-          onClick={(event) => {
-            if (window.ipc && target) {
-              event.preventDefault();
-              window.ipc.send("open-url", target);
-            }
-          }}
-          className={`block px-5 py-2 rounded hover:bg-gray-200 ${
-            router.pathname == href ? "font-medium bg-gray-200" : "font-light"
-          }`}
-        >
-          {label}
-        </a>
+      <Link
+        href={href}
+        onClick={(event) => {
+          if (isElectron() && target) {
+            event.preventDefault();
+            window.ipc.send("open-url", target);
+          } else if (target) {
+            window.history.pushState({}, "", target);
+          }
+        }}
+        className={`block px-5 py-2 rounded hover:bg-gray-200 ${
+          router.pathname == href ? "font-medium bg-gray-200" : "font-light"
+        }`}
+      >
+        {label}
       </Link>
     );
   };
@@ -76,10 +78,8 @@ export default function Navbar() {
     <header className="w-full">
       <nav className="fixed w-full z-20 top-0 left-0 border-b border-gray-300 bg-[#F1F1F1]">
         <div className="flex whitespace-nowrap items-center justify-between p-4 px-10">
-          <Link href="/home" passHref>
-            <a className="flex items-center">
-              <img src={ASSET.ArweaveLogo} alt="arweave-logo" className="w-8 h-8 mr-2" />
-            </a>
+          <Link href="/home" className="flex items-center">
+            <img src={ASSET.ArweaveLogo} alt="arweave-logo" className="w-8 h-8 mr-2" />
           </Link>
 
           <div className="flex md:order-2 gap-2">

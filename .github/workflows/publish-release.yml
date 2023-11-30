@@ -1,0 +1,38 @@
+name: Make ArweaveMinerUi Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release"
+        required: true
+
+jobs:
+  release:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+
+      - name: Install Node.js, NPM and Yarn
+        uses: actions/setup-node@master
+        with:
+          node-version: 20
+
+      - name: Build/release Electron app
+        id: create_electron_release
+        uses: samuelmeuli/action-electron-builder@v1.6.0
+        with:
+          github_token: ${{ secrets.github_token }}
+          release: ${{ github.event.inputs.version}}
+      - name: Create headless release artifact
+        if: matrix.os == 'ubuntu-latest'
+        id: create_headless_release
+        run: |
+          npm run build:headless
+          zip -r dist-headless.zip ./renderer/dist-headless

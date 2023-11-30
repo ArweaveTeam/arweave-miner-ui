@@ -1,3 +1,4 @@
+import isElectron from "is-electron";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import {
@@ -19,13 +20,17 @@ export const configSlice = createSlice({
   reducers: {
     selectNode(state, action: PayloadAction<string>) {
       state.selectedNode = action.payload;
-      window.ipc.setSelectedNodeById(action.payload);
+      if (isElectron()) {
+        window.ipc.setSelectedNodeById(action.payload);
+      }
     },
     setNodes(state, action: PayloadAction<ArweaveNodeConfig[]>) {
       state.nodes = action.payload;
       if (state.selectedNode === undefined && action.payload.length > 0) {
         state.selectedNode = action.payload[0].id;
-        window.ipc.setSelectedNodeById(state.selectedNode);
+        if (isElectron()) {
+          window.ipc.setSelectedNodeById(state.selectedNode);
+        }
       }
     },
     appendNode(state, action: PayloadAction<NewArweaveNodeConfig>) {
@@ -33,15 +38,19 @@ export const configSlice = createSlice({
       state.nodes.push(newNode);
       if (state.selectedNode === undefined) {
         state.selectedNode = newNode.id;
-        window.ipc.setSelectedNodeById(newNode.id);
+        if (isElectron()) {
+          window.ipc.setSelectedNodeById(newNode.id);
+        }
       }
     },
   },
 });
 
 export const getNodes = createAsyncThunk("config/getNodes", async (_, { dispatch }) => {
-  const answer = window.ipc.configGetNodes();
-  dispatch(configSlice.actions.setNodes(answer));
+  if (isElectron()) {
+    const answer = window.ipc.configGetNodes();
+    dispatch(configSlice.actions.setNodes(answer));
+  }
 });
 
 export const { appendNode, selectNode } = configSlice.actions;

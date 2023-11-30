@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import ScrollSpy from "react-ui-scrollspy";
+import isElectron from "is-electron";
 import { MainLayout } from "../layouts/MainLayout";
 import { useEarnings, useHashRate } from "../store/metricsSlice/metricsSliceHooks";
 import { setMetricsState } from "../store/metricsSlice/metricsSlice";
@@ -81,10 +82,12 @@ export default function DashboardPage() {
   );
 
   useEffect(() => {
-    window.ipc.metricsSub(handler);
-    return () => {
-      window.ipc.metricsUnsub(handler);
-    };
+    if (isElectron()) {
+      window.ipc.metricsSub(handler);
+      return () => {
+        window.ipc.metricsUnsub(handler);
+      };
+    }
   }, [handler]);
 
   return (
