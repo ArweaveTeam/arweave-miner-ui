@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import {
   selectHashRate,
+  selectAvgBlockReward,
   selectEarnings,
   selectDataPacked,
   selectDataUnpacked,
@@ -11,6 +12,12 @@ import {
 export const useHashRate = () => {
   return useSelector(selectHashRate, (prev, current) => {
     return prev.hashRate === current.hashRate;
+  });
+};
+
+export const useAvgBlockReward = () => {
+  return useSelector(selectAvgBlockReward, (prev, current) => {
+    return prev.avgBlockReward === current.avgBlockReward;
   });
 };
 
