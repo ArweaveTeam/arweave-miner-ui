@@ -10,6 +10,7 @@ export interface MetricsSliceReducerState {
   storageAvailable: number | undefined;
   weaveSize: number | undefined;
   hashRate: number | undefined;
+  avgBlockReward: number | undefined;
   earnings: number | undefined;
   vdfTimeLowerBound: number | undefined;
 }
@@ -20,6 +21,7 @@ const initialMetricsState: MetricsSliceReducerState = {
   storageAvailable: undefined,
   weaveSize: undefined,
   hashRate: undefined,
+  avgBlockReward: undefined,
   earnings: undefined,
   vdfTimeLowerBound: undefined,
 };
@@ -38,6 +40,7 @@ export const metricsSlice = createSlice({
         storageAvailable,
         weaveSize,
         hashRate,
+        avgBlockReward,
         earnings,
         vdfTimeLowerBound,
       } = action.payload;
@@ -46,6 +49,7 @@ export const metricsSlice = createSlice({
       state.storageAvailable = storageAvailable ?? undefined;
       state.weaveSize = weaveSize ?? undefined;
       state.hashRate = hashRate ?? undefined;
+      state.avgBlockReward = avgBlockReward ?? undefined;
       state.earnings = earnings ?? undefined;
       state.vdfTimeLowerBound = vdfTimeLowerBound ?? undefined;
     },

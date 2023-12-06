@@ -3,7 +3,11 @@ import { useDispatch } from "react-redux";
 import ScrollSpy from "react-ui-scrollspy";
 import isElectron from "is-electron";
 import { MainLayout } from "../layouts/MainLayout";
-import { useEarnings, useHashRate } from "../store/metricsSlice/metricsSliceHooks";
+import {
+  useEarnings,
+  useHashRate,
+  useAvgBlockReward,
+} from "../store/metricsSlice/metricsSliceHooks";
 import { setMetricsState } from "../store/metricsSlice/metricsSlice";
 import { SetMetricsStateActionPayload } from "../../types/metrics";
 import DataRelated from "../components/DataRelated";
@@ -26,6 +30,7 @@ const menuItems: MenuItems[] = [
       { label: "Data Related", target: "sub-section-1-1" },
       { label: "Hash Rate", target: "sub-section-1-2" },
       { label: "Earnings", target: "sub-section-1-3" },
+      { label: "Average Block Reward", target: "sub-section-1-4" },
     ],
   },
   {
@@ -43,6 +48,7 @@ export default function DashboardPage() {
   const dispatch = useDispatch();
   const { hashRate } = useHashRate();
   const { earnings } = useEarnings();
+  const { avgBlockReward } = useAvgBlockReward();
 
   const [activeMenu, setActiveMenu] = useState<string>();
 
@@ -143,13 +149,21 @@ export default function DashboardPage() {
                 <div id="sub-section-1-2" className="bg-gray-100 p-4 rounded-lg h-64">
                   <h3 className="text-lg font-medium mb-2">Hash Rate</h3>
                   {typeof hashRate === "number" && (
-                    <p className="text-gray-700">Hash rate: {hashRate}</p>
+                    <p className="text-gray-700">Hash rate: {hashRate.toFixed(2)}</p>
                   )}
                 </div>
                 <div id="sub-section-1-3" className="bg-gray-100 p-4 rounded-lg h-64">
                   <h3 className="text-lg font-medium mb-2">Earnings</h3>
                   {typeof earnings === "number" && (
-                    <p className="text-gray-700">Earnings: {earnings}</p>
+                    <p className="text-gray-700">Earnings: {earnings} AR</p>
+                  )}
+                </div>
+                <div id="sub-section-1-4" className="bg-gray-100 p-4 rounded-lg h-64">
+                  <h3 className="text-lg font-medium mb-2">Average Block Reward</h3>
+                  {typeof avgBlockReward === "number" && (
+                    <p className="text-gray-700">
+                      Average Block Reward: {(avgBlockReward / 1e12).toFixed(4)} AR
+                    </p>
                   )}
                 </div>
               </div>

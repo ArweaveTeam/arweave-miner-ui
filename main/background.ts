@@ -58,6 +58,7 @@ ipcMain.on("message", async (event, arg) => {
 // TODO make generic function for creating pub+sub endpoints
 // TODO make class for subscription management
 let cachedMetrics: SetMetricsStateActionPayload | null = null;
+let longCachedMetrics: SetMetricsStateActionPayload | null = null;
 let cachedMetricsStr = "";
 // TODO list of webContents
 // let cachedMetricsSubList = [];
@@ -108,10 +109,10 @@ async function getMetrics(): Promise<SetMetricsStateActionPayload> {
       }
     });
   }
-  const hashRate = metricStringParse(
+  const networkHashRate = metricStringParse(
     parsed.find((item: PrometheusMetricParser) => item.name === "average_network_hash_rate"),
   );
-  const earnings = metricStringParse(
+  const avgBlockReward = metricStringParse(
     parsed.find((item: PrometheusMetricParser) => item.name === "average_block_reward"),
   );
 
@@ -132,16 +133,40 @@ async function getMetrics(): Promise<SetMetricsStateActionPayload> {
   const weaveSize = metricStringParse(
     parsed.find((item: PrometheusMetricParser) => item.name === "weave_size"),
   );
+
+  const hashCountWatermark: number = parsed
+    .filter(
+      (item: PrometheusMetricParser) =>
+        item.name === "hash_1chunk_counter" || item.name === "hash_2chunk_counter",
+    )
+    .map(metricStringParse)
+    .filter((t) => t)
+    .reduce((a, b) => a! + b!, 0)!;
+
+  const ts = Date.now();
+  let hashRate = 0;
+  if (longCachedMetrics) {
+    const oldTs = longCachedMetrics.ts;
+    const oldHashCountWatermark = longCachedMetrics.hashCountWatermark;
+    const deltaHashCount = hashCountWatermark - oldHashCountWatermark;
+    const deltaTs = ts - oldTs;
+    hashRate = (deltaHashCount / deltaTs) * 1000;
+  }
+
   console.log("DEBUG: getMetrics complete");
   return {
     dataUnpacked,
     dataPacked,
     storageAvailable,
-    weaveSize,
+    hashCountWatermark,
     hashRate,
-    earnings,
+    weaveSize,
+    networkHashRate,
+    avgBlockReward,
+    earnings: 0, // TODO call /balance/<mining_addr>
     vdfTimeLowerBound,
     node,
+    ts,
   };
 }
 
@@ -149,6 +174,12 @@ async function cachedMetricsUpdate() {
   try {
     cachedMetricsUpdateInProgress = true;
     cachedMetrics = await getMetrics();
+    if (
+      !longCachedMetrics ||
+      longCachedMetrics.hashCountWatermark > cachedMetrics.hashCountWatermark
+    ) {
+      longCachedMetrics = cachedMetrics;
+    }
   } catch (err) {
     console.error(err);
   }
