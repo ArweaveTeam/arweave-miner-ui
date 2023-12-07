@@ -9,4 +9,10 @@ files:
     filter:
       - package.json
       - app
+linux:
+  artifactName: ArweaveMiner.AppImage
+  target: AppImage
+  category: Network
+  icon: resources/icons/arweave_logo.png
+  publish: null
 publish: null
