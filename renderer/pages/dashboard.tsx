@@ -6,6 +6,7 @@ import { MainLayout } from "../layouts/MainLayout";
 import {
   useEarnings,
   useHashRate,
+  useHashRateHistory,
   useAvgBlockReward,
 } from "../store/metricsSlice/metricsSliceHooks";
 import { setMetricsState } from "../store/metricsSlice/metricsSlice";
@@ -47,6 +48,7 @@ const menuItems: MenuItems[] = [
 export default function DashboardPage() {
   const dispatch = useDispatch();
   const { hashRate } = useHashRate();
+  const { hashRateHistory } = useHashRateHistory();
   const { earnings } = useEarnings();
   const { avgBlockReward } = useAvgBlockReward();
 
@@ -95,6 +97,13 @@ export default function DashboardPage() {
       };
     }
   }, [handler]);
+
+  const dateFormat = (date: Date) => {
+    const ss = date.getSeconds().toString().padStart(2, "0");
+    const mm = date.getMinutes().toString().padStart(2, "0");
+    const hh = date.getHours().toString().padStart(2, "0");
+    return `${hh}:${mm}:${ss}`;
+  };
 
   return (
     <MainLayout>
@@ -151,6 +160,40 @@ export default function DashboardPage() {
                   {typeof hashRate === "number" && (
                     <p className="text-gray-700">Hash rate: {hashRate.toFixed(2)}</p>
                   )}
+                  <p className="text-gray-700">Hash rate history</p>
+
+                  <table>
+                    <tbody>
+                      <tr>
+                        <th>value</th>
+                        {hashRateHistory &&
+                          hashRateHistory.map((point) => (
+                            <td
+                              key={point.ts}
+                              style={{
+                                textAlign: "center",
+                              }}
+                            >
+                              {point.value.toFixed(2)}
+                            </td>
+                          ))}
+                      </tr>
+                      <tr>
+                        <th>ts</th>
+                        {hashRateHistory &&
+                          hashRateHistory.map((point) => (
+                            <td
+                              key={point.ts}
+                              style={{
+                                textAlign: "center",
+                              }}
+                            >
+                              {dateFormat(new Date(point.ts))}
+                            </td>
+                          ))}
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
                 <div id="sub-section-1-3" className="bg-gray-100 p-4 rounded-lg h-64">
                   <h3 className="text-lg font-medium mb-2">Earnings</h3>

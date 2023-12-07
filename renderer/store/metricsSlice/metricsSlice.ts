@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
-import { SetMetricsStateActionPayload } from "../../../types/metrics";
+import { SetMetricsStateActionPayload, HistoryPoint } from "../../../types/metrics";
 import { AppState } from "../index";
 
 // Type for our state
@@ -10,6 +10,7 @@ export interface MetricsSliceReducerState {
   storageAvailable: number | undefined;
   weaveSize: number | undefined;
   hashRate: number | undefined;
+  hashRateHistory: HistoryPoint[];
   avgBlockReward: number | undefined;
   earnings: number | undefined;
   vdfTimeLowerBound: number | undefined;
@@ -21,6 +22,7 @@ const initialMetricsState: MetricsSliceReducerState = {
   storageAvailable: undefined,
   weaveSize: undefined,
   hashRate: undefined,
+  hashRateHistory: [],
   avgBlockReward: undefined,
   earnings: undefined,
   vdfTimeLowerBound: undefined,
@@ -40,6 +42,7 @@ export const metricsSlice = createSlice({
         storageAvailable,
         weaveSize,
         hashRate,
+        hashRateHistory,
         avgBlockReward,
         earnings,
         vdfTimeLowerBound,
@@ -49,6 +52,7 @@ export const metricsSlice = createSlice({
       state.storageAvailable = storageAvailable ?? undefined;
       state.weaveSize = weaveSize ?? undefined;
       state.hashRate = hashRate ?? undefined;
+      state.hashRateHistory = hashRateHistory ?? undefined;
       state.avgBlockReward = avgBlockReward ?? undefined;
       state.earnings = earnings ?? undefined;
       state.vdfTimeLowerBound = vdfTimeLowerBound ?? undefined;

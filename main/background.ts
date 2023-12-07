@@ -4,7 +4,7 @@ import serve from "electron-serve";
 import parsePrometheusTextFormat from "parse-prometheus-text-format";
 import { createWindow } from "./helpers";
 import { PrometheusMetricParser } from "./types/prometheus";
-import { SetMetricsStateActionPayload } from "../types/metrics";
+import { SetMetricsStateActionPayload, HistoryPoint } from "../types/metrics";
 import * as config from "./config";
 
 const isProd = process.env.NODE_ENV === "production";
@@ -59,6 +59,8 @@ ipcMain.on("message", async (event, arg) => {
 // TODO make class for subscription management
 let cachedMetrics: SetMetricsStateActionPayload | null = null;
 let longCachedMetrics: SetMetricsStateActionPayload | null = null;
+const cachedHashRateHistory: HistoryPoint[] = [];
+const cachedHashRateHistoryLimit = 10;
 let cachedMetricsStr = "";
 // TODO list of webContents
 // let cachedMetricsSubList = [];
@@ -152,6 +154,14 @@ async function getMetrics(): Promise<SetMetricsStateActionPayload> {
     const deltaTs = ts - oldTs;
     hashRate = (deltaHashCount / deltaTs) * 1000;
   }
+  const hashRateHistory = cachedHashRateHistory;
+  hashRateHistory.push({
+    value: hashRate,
+    ts,
+  });
+  if (hashRateHistory.length > cachedHashRateHistoryLimit) {
+    hashRateHistory.shift();
+  }
 
   console.log("DEBUG: getMetrics complete");
   return {
@@ -160,6 +170,7 @@ async function getMetrics(): Promise<SetMetricsStateActionPayload> {
     storageAvailable,
     hashCountWatermark,
     hashRate,
+    hashRateHistory,
     weaveSize,
     networkHashRate,
     avgBlockReward,

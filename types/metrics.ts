@@ -5,6 +5,7 @@ export interface SetMetricsStateActionPayload {
   storageAvailable: number | null;
   hashCountWatermark: number;
   hashRate: number | null;
+  hashRateHistory: HistoryPoint[];
   weaveSize: number | null;
   networkHashRate: number | null;
   avgBlockReward: number | null;
@@ -12,4 +13,8 @@ export interface SetMetricsStateActionPayload {
   vdfTimeLowerBound: number | null;
   node : ArweaveNodeConfig;
   ts: number;
+}
+export interface HistoryPoint {
+  value : number;
+  ts : number;
 }

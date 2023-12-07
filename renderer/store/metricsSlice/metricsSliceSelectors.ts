@@ -4,6 +4,10 @@ export const selectHashRate = (state: AppState) => ({
   hashRate: state.metrics.hashRate,
 });
 
+export const selectHashRateHistory = (state: AppState) => ({
+  hashRateHistory: state.metrics.hashRateHistory,
+});
+
 export const selectAvgBlockReward = (state: AppState) => ({
   avgBlockReward: state.metrics.avgBlockReward,
 });

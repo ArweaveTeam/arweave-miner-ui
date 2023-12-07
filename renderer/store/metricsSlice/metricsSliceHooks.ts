@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import {
   selectHashRate,
+  selectHashRateHistory,
   selectAvgBlockReward,
   selectEarnings,
   selectDataPacked,
@@ -12,6 +13,15 @@ import {
 export const useHashRate = () => {
   return useSelector(selectHashRate, (prev, current) => {
     return prev.hashRate === current.hashRate;
+  });
+};
+
+export const useHashRateHistory = () => {
+  return useSelector(selectHashRateHistory, (prev, current) => {
+    // NOTE. Compare array instances
+    // compare by value is very expensive
+    // because gap between background and frontend each time this will be new instance
+    return prev.hashRateHistory === current.hashRateHistory;
   });
 };
 
