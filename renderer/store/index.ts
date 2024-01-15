@@ -1,6 +1,11 @@
-import { Action, AnyAction, ThunkAction, ThunkDispatch, configureStore } from "@reduxjs/toolkit";
+import {
+  Action,
+  ThunkAction,
+  ThunkDispatch,
+  UnknownAction,
+  configureStore,
+} from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
-import thunkMiddleware from "redux-thunk";
 import { createWrapper } from "next-redux-wrapper";
 import { metricsSlice } from "./metricsSlice/metricsSlice";
 import { configSlice } from "./configSlice/configSlice";
@@ -12,13 +17,13 @@ export const makeStore = () => {
       [metricsSlice.name]: metricsSlice.reducer,
     },
     devTools: true,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunkMiddleware),
+    // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunkMiddleware),
   });
 };
 
 export type AppStore = ReturnType<typeof makeStore>;
 export type AppState = ReturnType<AppStore["getState"]>;
-export type AppThunkDispatch = ThunkDispatch<AppStore, unknown, AnyAction>;
+export type AppThunkDispatch = ThunkDispatch<AppStore, unknown, UnknownAction>;
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
   AppState,
