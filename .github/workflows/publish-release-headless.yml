@@ -1,14 +1,7 @@
-name: Make ArweaveMinerUi Release
+name: Make ArweaveMinerUi Headless Release
 
 on:
   workflow_dispatch:
-    # inputs:
-    #   version:
-    #     description: "Version to release"
-    #     required: true
-    #   release_title:
-    #     description: "Release title"
-    #     required: true
 
 jobs:
   release:
@@ -35,15 +28,11 @@ jobs:
         id: create_headless_release
         run: |
           npm run build:headless
-          zip -r dist-headless.zip ./renderer/dist-headless
+          zip -r headless.zip ./renderer/dist-headless
       - name: Upload Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "dist-headless.zip"
+          artifacts: "headless.zip"
           token: ${{ secrets.GITHUB_TOKEN }}
-      # - name: Create a Release
-      #   uses: elgohr/Github-Release-Action@v5
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.github_token }}
-      #   with:
-      #     title: ${{ github.event.inputs.version }}
+          makeLatest: true
+          replacesArtifacts: true
