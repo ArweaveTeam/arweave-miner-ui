@@ -36,6 +36,11 @@ jobs:
         run: |
           npm run build:headless
           zip -r dist-headless.zip ./renderer/dist-headless
+      - name: Upload Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "dist-headless.zip"
+          token: ${{ secrets.GITHUB_TOKEN }}
       # - name: Create a Release
       #   uses: elgohr/Github-Release-Action@v5
       #   env:
