@@ -1,7 +1,9 @@
-name: Make ArweaveMinerUi Headless Release
+name: release-headless
 
 on:
-  workflow_dispatch:
+  push:
+    tags:
+      - "*"
 
 jobs:
   release:
