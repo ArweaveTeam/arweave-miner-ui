@@ -8,21 +8,19 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v4
-
       - name: Install Node.js, NPM and Yarn
         uses: actions/setup-node@master
         with:
           node-version: 20
-      - name: Build/release Electron app
-        run: |
-          npm install
-          npm run build
       - name: Create headless release artifact
         id: create_headless_release
         run: |
+          npm install
           npm run build:headless
           zip -r headless.zip ./renderer/dist-headless
       - name: Upload Release
@@ -30,5 +28,3 @@ jobs:
         with:
           artifacts: "headless.zip"
           token: ${{ secrets.GITHUB_TOKEN }}
-          makeLatest: true
-          replacesArtifacts: true
